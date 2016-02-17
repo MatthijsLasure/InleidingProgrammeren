@@ -25,4 +25,6 @@ int main() {
 	rainbowAverage = rainbowAverage / FucksGiven;
 
 	cout << "Het gemiddelde is " << rainbowAverage;
+
+	return 0;
 }
