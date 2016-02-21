@@ -12,13 +12,13 @@
 using namespace std;
 
 int main() {
-	float euro2dollar = 1.114255; // https://www.google.be/search?q=1+€+in+%24
-	float euro2pond = 0.778119184; // https://www.google.be/search?q=1+€+in+£&oq=1+€+in+£
+	float euro2dollar = 1.114255; // https://www.google.be/search?q=1+ï¿½+in+%24
+	float euro2pond = 0.778119184; // https://www.google.be/search?q=1+ï¿½+in+ï¿½&oq=1+ï¿½+in+ï¿½
 	float myMoney = 0;
 
 	cout << "Voer een bedrag in: ";
 	cin >> myMoney;
-	cout << myMoney << " € is respectievelijk " << (myMoney * euro2dollar) << " US$ of " << (myMoney * euro2pond) << "UK£ waard.\n";
+	cout << myMoney << " ï¿½ is respectievelijk " << (myMoney * euro2dollar) << " US$ of " << (myMoney * euro2pond) << "UKÂ£ waard.\n";
 
 	return 0;
 }
