@@ -20,11 +20,11 @@ int main() {
 	cout << "Geef een binair getal? ";
 	cin >> binair;
 
-	for (int i = binair.size() - 1; i >= 0; i-- ) {
+	for (int i = 0; i < binair.size(); i++ ) {
 		binCijfer = binair[i];
 		if(binair[i] == '1') tmp = 1; else tmp = 0;
 		cout << tmp;
-		tmp *= 2^(binair.size() - i - 1);
+		tmp *= 2^(binair.size() - i);
 		getal += tmp;
 	}
 	cout << endl;
