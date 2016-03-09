@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -15,16 +16,21 @@ int main() {
 	string binair = "";
 	int getal = 0;
 	int tmp = 0;
+	int j;
 	char binCijfer;
 
 	cout << "Geef een binair getal? ";
 	cin >> binair;
 
-	for (int i = 0; i < binair.size(); i++ ) {
-		binCijfer = binair[i];
-		if(binair[i] == '1') tmp = 1; else tmp = 0;
-		cout << tmp;
-		tmp *= 2^(binair.size() - i);
+	for (int i = 0; i < binair.length(); i++ ) {
+		j = binair.size() - i - 1;
+		binCijfer = binair[j];
+		if(binCijfer == '1') {
+			tmp = 1;
+		} else {
+			tmp = 0;
+		}
+		tmp = tmp * pow(2, i);
 		getal += tmp;
 	}
 	cout << endl;
