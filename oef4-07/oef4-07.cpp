@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -26,7 +27,6 @@ void decode(string& in) {
 }
 
 int main() {
-	char heyo[10000];
 	string input;
 
 	cout << "Geef een tekst? ";
