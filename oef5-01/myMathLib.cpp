@@ -9,8 +9,8 @@
 
 using namespace std;
 
-double power(float a, int b) {
-	double out = 1;
+long double power(long double a, int b) {
+	long double out = 1;
 	if (b >= 0) {
 		for (int i = 0; i < b; i++) {
 			out *= a;
@@ -23,7 +23,7 @@ double power(float a, int b) {
 	return(out);
 }
 
-float abs(float in) {
+long double abs(long double in) {
 	if (in < 0) return -1 * in;
 	return in;
 }
@@ -38,9 +38,9 @@ long long fac(int n) {
 
 const float PI =  3.14159265358979;
 
-float sin(float in) {
-	long long epsilon = 13515513;
-	float out = 0;
+long double sin(float in) {
+	long double epsilon = 13515513;
+	long double out = 0;
 	int n = 0;
 	do {
 		epsilon = power(-1, n) * power(in, 2 * n + 1) / fac(2 * n + 1);
@@ -52,7 +52,7 @@ float sin(float in) {
 }
 
 float cos(float in) {
-	long long epsilon = 13515513;
+	long double epsilon = 13515513;
 	float out = 0;
 	int n = 0;
 	do {

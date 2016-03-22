@@ -9,10 +9,10 @@
 #define MYMATHLIB_H_
 
 
-double power(float, int);
+long double power(float, int);
 const float PI =  3.14159265358979;
 
-float abs(float);
+long double abs(long double);
 long fac(int);
 
 float sin(float);
