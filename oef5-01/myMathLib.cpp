@@ -28,8 +28,8 @@ long double abs(long double in) {
 	return in;
 }
 
-long long fac(int n) {
-	long long out = 1;
+long double fac(int n) {
+	long double out = 1;
 	for (int i = 1; i <= n; i++) {
 		out *= i;
 	}
@@ -51,9 +51,9 @@ long double sin(float in) {
 	return out;
 }
 
-float cos(float in) {
+long double cos(float in) {
 	long double epsilon = 13515513;
-	float out = 0;
+	long double out = 0;
 	int n = 0;
 	do {
 		epsilon = power(-1, n) * power(in, 2 * n) / fac(2 * n);
@@ -63,7 +63,7 @@ float cos(float in) {
 	return out;
 }
 
-float tan(float in) {
+long double tan(float in) {
 	return sin(in) / cos(in);
 }
 

@@ -9,15 +9,15 @@
 #define MYMATHLIB_H_
 
 
-long double power(float, int);
+long double power(long double, int);
 const float PI =  3.14159265358979;
 
 long double abs(long double);
-long fac(int);
+long double fac(int);
 
-float sin(float);
-float cos(float);
-float tan(float);
+long double sin(float);
+long double cos(float);
+long double tan(float);
 
 float degToRad(float);
 float radToDeg(float);
