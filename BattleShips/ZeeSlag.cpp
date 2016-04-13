@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Coordinates.h"
 #include "Ship.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -21,11 +22,12 @@ int main() {
 	Ship fregat{Coordinates{1,1}, 5, 'H', "Fregat"};
 	cout << fregat.isHit(Coordinates{1,5}) << endl;
 	for (int i = 1; i < 6; i++) {
-		fregat.isHit(Coordinates{1,i});
+		cout << i << " " << fregat.isHit(Coordinates{i,1}) << endl;
 	}
+	cout << fregat.isDead() << endl;
 
 	// Start het spel!
-
+	Game zeeslag;
 
 	// Terminatie van het programma
 	cout << "Programma is afgelopen. Tot de volgende keer!" << endl;

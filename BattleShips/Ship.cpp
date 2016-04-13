@@ -24,14 +24,14 @@ Ship::Ship(Coordinates pos, int length, char richting, string name) {
 
 	if ( richting == 'H' ) { // Horizontaal
 		// Voor de hele lengte, maak een nieuwe Coordinates in de vector aan
-		for (int i = 0; i < length - 1; i++) {
+		for (int i = 0; i < length; i++) {
 			// Zet de coords bij op de vector
 			locations.push_back(Coordinates{pos.getX() + i, pos.getY()});
 			hits.push_back(false); // Is nog niet geraakt
 		}
 	} else { // Vertikaal
 		// Voor de hele lengte, maak een nieuwe Coordinates in de vector aan
-		for (int i = 0; i < length - 1; i++) {
+		for (int i = 0; i < length; i++) {
 			// Zet de coords bij op de vector
 			locations.push_back(Coordinates{pos.getX(), pos.getY() + i});
 			hits.push_back(false); // Is nog niet geraakt
@@ -53,7 +53,7 @@ bool Ship::isHit(Coordinates missile) {
 	int i = 0;
 	// Loop over alle locaties vh schip
 	for (Coordinates loc : locations) {
-		if(missile.getX() == loc.getY() && missile.getX() == loc.getY()) { // Hit!
+		if(missile.getX() == loc.getX() && missile.getY() == loc.getY()) { // Hit!
 
 			hits[i] = true;
 			checkSunk();
