@@ -13,10 +13,34 @@
 
 class GameBoard {
 public:
+	/*
+	 * Constructor: stelt de grootte in van het bord
+	 * @param x grootte van het bord in de X richting
+	 * @param y grootte van het bord in de Y richting
+	 */
+	GameBoard(int, int);
+
+	vector<Coordinates> getMissiles() { return(myMissiles); };
+	vector<Coordinates> getHits() { return(myHits); };
+
+	/*
+	 * getShipCoords: geef alle locaties ingenomen door de schepen van dit GameBoard
+	 * @return Vector met de coordinaten
+	 */
+	vector<Coordinates> getShipCoords();
+
+	/*
+	 * fire: inkomende raket van de vijand, check indien hit, reageer
+	 * @param missile de positie van de raket
+	 * @return True indien geraakt
+	 */
+	bool fire(Coordinates);
 
 private:
+	int xLimit, yLimit;
 	vector<Ship> myShips;
-	vector<Coordinates> myMissiles;
+	vector<Coordinates> myMissiles; // Gemiste raketten van de andere
+	vector<Coordinates> myHits; // Hits toegebracht door de andere
 };
 
 

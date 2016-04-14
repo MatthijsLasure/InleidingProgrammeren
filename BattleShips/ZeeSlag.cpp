@@ -27,7 +27,7 @@ int main() {
 	cout << fregat.isDead() << endl;
 
 	// Start het spel!
-	Game zeeslag;
+	Game zeeslag{10,10};
 
 	// Terminatie van het programma
 	cout << "Programma is afgelopen. Tot de volgende keer!" << endl;

@@ -24,6 +24,9 @@ public:
 	 */
 	Ship(Coordinates pos, int length, char richting, string name);
 
+	int getLength() { return(length); }
+	string getName() { return(schipNaam); }
+
 	/*
 	 * Check of het schip gezonken is.
 	 * @return True indien het schip gezonken is.
@@ -45,6 +48,8 @@ public:
 
 private:
 	bool dead; // Is het ship volledig gebombardeerd?
+	int length;
+
 	vector<Coordinates> locations; // Vector met de bezette locaties door het schip
 	vector<bool> hits; // Welke locaties al geraakt zijn
 	string schipNaam;
