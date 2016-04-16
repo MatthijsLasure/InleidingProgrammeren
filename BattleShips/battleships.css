@@ -24,12 +24,15 @@ td#ship {
 	background-color: gray;
 }
 
+td#bomb {
+	background-color: red;
+}
 td#bomb-hit {
 	background-color: green;
 }
 
 img#hit-image {
-    content:url("hit.png");
+    image:url("hit.png");
     width: 17px;
     height: 17px;
 }

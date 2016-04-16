@@ -32,9 +32,15 @@ public:
 	/*
 	 * fire: inkomende raket van de vijand, check indien hit, reageer
 	 * @param missile de positie van de raket
-	 * @return True indien geraakt
+	 * @return 0 voor gemist, 1 voor hit, 2 voor gezonken
 	 */
-	bool fire(Coordinates);
+	int fire(Coordinates);
+
+	bool hasLost();
+
+	void addShip(Coordinates, int, char, string);
+
+	bool checkMissile(Coordinates);
 
 private:
 	int xLimit, yLimit;

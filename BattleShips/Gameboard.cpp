@@ -20,21 +20,91 @@ GameBoard::GameBoard(int x, int y) {
  */
 vector<Coordinates> GameBoard::getShipCoords() {
 	vector<Coordinates> total;
+	vector<Coordinates> temp;
 
 	for (Ship ship : myShips) {
-		total.insert(total.end(), ship.getCoords().begin(), ship.getCoords().end());
+		temp = ship.getCoords();
+		for (Coordinates c : temp) {
+			total.push_back(c);
+		}
+		//total.insert(total.end(), ship.getCoords().begin(), ship.getCoords().end());
 	}
 	return(total);
 }
 
-bool GameBoard::fire(Coordinates missile) {
-	for (Ship ship : myShips) {
-		if(ship.isHit(missile)) {
+/*
+ * fire vuur een raket af op een locatie op dit bord. In geval van een hit, print info
+ * @param missile de coordinaten van de raket
+ * @return 0 voor gemist, 1 voor hit, 2 voor gezonken
+ */
+int GameBoard::fire(Coordinates missile) {
+	// Zet op de lijst van raketten
+	myMissiles.push_back(missile);
+//	for (Ship ship : myShips) {
+//		if(ship.isHit(missile)) {
+//			cout << "De raket op (" << missile.getX() << " " << missile.getY()
+//					<< ") heeft het schip " << ship.getName()
+//					<< " (lengte " << ship.getLength() << ") geraakt!" << endl;
+//			myHits.push_back(missile);
+//			return(true);
+//		}
+//	}
+
+	// Loop over alle schepen, check of ze geraakt zijn
+	// Note: geen loop over array, maar met indiches: we moeten de params in de vector aanpassen,
+	// niet aan een gekopieerd object
+	for (int i = 0; i < myShips.size(); i++) {
+		if(myShips[i].isHit(missile)) {
+			// Schip is geraakt, print info
 			cout << "De raket op (" << missile.getX() << " " << missile.getY()
-					<< ") heeft het schip " << ship.getName()
-					<< " (lengte " << ship.getLength() << ") geraakt!" << endl;
-			return(true);
+					<< ") heeft het schip '" << myShips[i].getName()
+					<< "' (lengte " << myShips[i].getLength() << ") geraakt!" << endl;
+			// Zet op de lijst met hits
+			myHits.push_back(missile);
+
+			if(myShips[i].isDead()) return (2);
+			else return(1);
 		}
 	}
-	return(false);
+	// For lus heeft niets gereturned, dus niets geraakt, dus false
+	return(0);
+}
+
+/*
+ * hasLost Check of dat de speler verloren heeft
+ * @return True indien alle schepen gezonken zijn
+ */
+bool GameBoard::hasLost() {
+	for (Ship ship : myShips) {
+		if(!ship.isDead()) { // Een schip drijft nog
+			return(false);
+		}
+	}
+	// Alle schepen zijn gezonken
+	return(true);
+}
+
+/*
+ * addShip: voeg een nieuw schip toe aan de vloot
+ * @param pos Coordinaten van het nieuwe schip
+ * @param length lengte van het nieuwe schip
+ * @param richting orientatie van het nieuwe schip
+ * @param naam De naam van het nieuwe schip
+ */
+void GameBoard::addShip(Coordinates pos, int length, char richting, string name) {
+	myShips.push_back(Ship{pos, length, richting, name});
+}
+
+/*
+ * checkMissile: check of er al een raket is afgevuurd op de gegeven locatie
+ * @param newMissile de coordinates van de nieuwe raket
+ * @return True indien er al een raket is afgevuurd op die plaats
+ */
+bool GameBoard::checkMissile(Coordinates newMissile) {
+	// Loop over alle afgevuurde missiles
+	for(Coordinates missile : myMissiles) {
+		// Check of er al een is
+		return (newMissile.getX() == missile.getX() && newMissile.getY() == missile.getY());
+	}
+	return false;
 }

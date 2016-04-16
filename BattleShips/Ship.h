@@ -48,13 +48,12 @@ public:
 
 private:
 	bool dead; // Is het ship volledig gebombardeerd?
-	int length;
+	int length = 0;
+	int hits = 0;
 
 	vector<Coordinates> locations; // Vector met de bezette locaties door het schip
-	vector<bool> hits; // Welke locaties al geraakt zijn
 	string schipNaam;
 
-	void checkSunk();
 };
 
 
