@@ -110,7 +110,8 @@ void Graphics::draw(vector<Coordinates> friendlyShips, vector<Coordinates> frien
 					}
 				}
 				if (isShipCell && isHitCell)
-					output <<  "<td id=\"ship\"><img id=\"hit-image\" /></td>" << endl;
+					//output <<  "<td id=\"ship\"><img id=\"hit-image\" /></td>" << endl;
+					output <<  "<td id=\"bomb-hit\"><img id=\"hit-image\" /></td>" << endl;
 				else if (isShipCell)
 					output << "<td id=\"ship\"></td>" << endl;
 				else if (isBombCell)

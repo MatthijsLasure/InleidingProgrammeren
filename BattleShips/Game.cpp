@@ -27,7 +27,7 @@ Game::Game(int xi, int yi) {
 	battlefield.setDimensions(xLimit, yLimit); // Set limits
 
 	// Instellen AI
-	glados.init(3, xLimit, yLimit);
+	gladOS.init(0, xLimit, yLimit);
 }
 
 /*
@@ -48,26 +48,29 @@ void Game::gameLoop() {
 //	}
 
 	int cyclus = 0;
+	int hasHit = 0;
+	int lol;
 
 	while(! gameOver) {
 		cyclus++;
 		cout << "Spelronde " << cyclus << endl;
+		Coordinates pInput{0,0};
 
 		// Speler
 		// ======
 		// Vraag input
-		Coordinates pInput = player(xLimit, yLimit);
-		int hasHit = board2.fire(pInput);
-		if (hasHit > 0) { // Hit
-			// check game over
-			if(board2.hasLost()) {
-				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
-				gameOver = true;
-			}
-		} else {
-			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
-					<< ") heeft niets geraakt!" << endl;
-		}
+//		pInput = player(xLimit, yLimit);
+//		hasHit = board2.fire(pInput);
+//		if (hasHit > 0) { // Hit
+//			// check game over
+//			if(board2.hasLost()) {
+//				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
+//				gameOver = true;
+//			}
+//		} else {
+//			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
+//					<< ") heeft niets geraakt!" << endl;
+//		}
 
 		// Draw
 		battlefield.draw(myShips, board2.getHits(), board2.getMissiles(),
@@ -78,13 +81,15 @@ void Game::gameLoop() {
 
 		// AI
 		// ==
+		if (cyclus == 51) cin >> lol;
 		cout << "AI speelt..." << endl;
-		pInput = glados.getMove(board1);
-		int hasHit = board1.fire(pInput);
+		pInput = gladOS.getMove(board1);
+		hasHit = board1.fire(pInput);
+
+		// Laat het weten aan de AI
+		gladOS.hasHit(pInput, hasHit);
+
 		if (hasHit > 0) {
-			// Laat het weten aan de AI
-			//bool sunk = board1.
-			glados.hasHit(hasHit);
 			// check game over
 			if(board1.hasLost()) {
 				cout << "Alle schepen van speler 1 zijn gezonken! Je hebt verloren!" << endl;
@@ -93,9 +98,6 @@ void Game::gameLoop() {
 		} else {
 			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
 					<< ") heeft niets geraakt!" << endl;
-		}
-		for (Coordinates c : board1.getMissiles()) {
-			cout << c.getX() << " " << c.getY() << endl;
 		}
 
 		// Draw again

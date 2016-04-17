@@ -104,7 +104,7 @@ bool GameBoard::checkMissile(Coordinates newMissile) {
 	// Loop over alle afgevuurde missiles
 	for(Coordinates missile : myMissiles) {
 		// Check of er al een is
-		return (newMissile.getX() == missile.getX() && newMissile.getY() == missile.getY());
+		if (newMissile.getX() == missile.getX() && newMissile.getY() == missile.getY()) return true;
 	}
 	return false;
 }

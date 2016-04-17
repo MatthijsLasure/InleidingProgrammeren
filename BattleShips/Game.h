@@ -29,7 +29,7 @@ private:
 	GameBoard board2{1,1}; // AI
 
 	//AI glados{0, xLimit, yLimit};
-	AI glados;
+	AI gladOS;
 
 	vector<Coordinates> myShips;
 

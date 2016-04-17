@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html><head><script src="battleships.js"></script><link rel="stylesheet" type="text/css" href="battleships.css"><title></title></head><body onload="checkForRefresh(1000);">
+<h1>Battleships</h1><div style="text-align: center"><div style="display: inline-block;"><input type="button" value="Vernieuw 1 keer" onClick="window.location.reload()"><input type="button" onclick="startRefresh(1000)" id="start" value="Start automatisch vernieuwen"><input type="button" onclick="stopRefresh()" id="stop" value="Stop automatisch vernieuwen"><br /><br />
+<table id="bombs">
+<tr><td align="center" colspan="11"><b>Your Placed Bombs</b></td></tr><tr><td></td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+</tr>
+<tr><td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>3</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>5</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>6</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>7</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>9</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+</td id="container"><td>
+<table id="ships">
+<tr><td align="center" colspan="11"><b>Your Ships and Hits</b></td></tr><tr><td></td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>5</td>
+<td>6</td>
+<td>7</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+</tr>
+<tr><td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+</tr>
+<tr><td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>3</td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+</tr>
+<tr><td>4</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>5</td>
+<td></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td id="bomb-hit"><img id="hit-image" /></td>
+<td id="bomb-hit"><img id="hit-image" /></td>
+<td id="bomb-hit"><img id="hit-image" /></td>
+<td id="bomb-hit"><img id="hit-image" /></td>
+<td id="bomb-hit"><img id="hit-image" /></td>
+<td id="bomb"><img id="bomb-image"></td>
+</tr>
+<tr><td>6</td>
+<td></td>
+<td></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>7</td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+</tr>
+<tr><td>8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+</tr>
+<tr><td>9</td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr><td>10</td>
+<td></td>
+<td id="bomb"><img id="bomb-image"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+</div></div>
+</body></html>
