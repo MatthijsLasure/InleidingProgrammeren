@@ -14,7 +14,7 @@
 
 class Game {
 public:
-	Game(int, int);
+	Game(int, int, int);
 	void gameLoop();
 	void addShip(int, Coordinates, int, char, string);
 
@@ -25,10 +25,12 @@ public:
 private:
 	int xLimit, yLimit;
 
+	int difficulty;
+
 	GameBoard board1{1,1}; // De speler
 	GameBoard board2{1,1}; // AI
 
-	//AI glados{0, xLimit, yLimit};
+	//AI
 	AI gladOS;
 
 	vector<Coordinates> myShips;

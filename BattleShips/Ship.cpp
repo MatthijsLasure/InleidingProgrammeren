@@ -57,7 +57,7 @@ bool Ship::isHit(Coordinates missile) {
 			cout << hits << endl;
 			if(hits == length) {
 				dead = true;
-				cout << "Schip '" << schipNaam << "' is gezonken!";
+				cout << "Schip '" << schipNaam << "' is gezonken!" << endl;
 			}
 			return(true);
 

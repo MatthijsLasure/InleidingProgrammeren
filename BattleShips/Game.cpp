@@ -15,7 +15,7 @@
 
 using namespace std;
 
-Game::Game(int xi, int yi) {
+Game::Game(int xi, int yi, int difficulty) {
 	gameOver = false;
 	xLimit = xi;
 	yLimit = yi;
@@ -27,7 +27,7 @@ Game::Game(int xi, int yi) {
 	battlefield.setDimensions(xLimit, yLimit); // Set limits
 
 	// Instellen AI
-	gladOS.init(0, xLimit, yLimit);
+	gladOS.init(difficulty, xLimit, yLimit);
 }
 
 /*
@@ -49,7 +49,6 @@ void Game::gameLoop() {
 
 	int cyclus = 0;
 	int hasHit = 0;
-	int lol;
 
 	while(! gameOver) {
 		cyclus++;
@@ -59,21 +58,25 @@ void Game::gameLoop() {
 		// Speler
 		// ======
 		// Vraag input
-//		pInput = player(xLimit, yLimit);
-//		hasHit = board2.fire(pInput);
-//		if (hasHit > 0) { // Hit
-//			// check game over
-//			if(board2.hasLost()) {
-//				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
-//				gameOver = true;
-//			}
-//		} else {
-//			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
-//					<< ") heeft niets geraakt!" << endl;
-//		}
+		pInput = player(xLimit, yLimit);
+		hasHit = board2.fire(pInput);
+		if (hasHit > 0) { // Hit
+			// check game over
+			if(board2.hasLost()) {
+				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
+				gameOver = true;
+			}
+		} else {
+			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
+					<< ") heeft niets geraakt!" << endl;
+		}
+
+		for(Coordinates b : board2.getMissiles()) {
+			cout << b.getX() << " " << b.getY() << endl;
+		}
 
 		// Draw
-		battlefield.draw(myShips, board2.getHits(), board2.getMissiles(),
+		battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
 				board1.getHits(), board1.getMissiles());
 
 		// Stop het spel indien player1 gewonnen heeft
@@ -81,7 +84,6 @@ void Game::gameLoop() {
 
 		// AI
 		// ==
-		if (cyclus == 51) cin >> lol;
 		cout << "AI speelt..." << endl;
 		pInput = gladOS.getMove(board1);
 		hasHit = board1.fire(pInput);
@@ -101,7 +103,7 @@ void Game::gameLoop() {
 		}
 
 		// Draw again
-		battlefield.draw(myShips, board2.getHits(), board2.getMissiles(),
+		battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
 				board1.getHits(), board1.getMissiles());
 	}
 }

@@ -15,11 +15,21 @@
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
 	// Initialisatie
 	cout << "Klaar voor een spelletje zeeslag?\n(C) Matthijs Lasure" << endl;
+	cout << argc << endl;
 
-	// TODO config lezen
+	// Arguments
+	int difficulty = 3;
+	if (argc == 2) {
+		stringstream diff_s(argv[1]); // Moeilijkheidsgraad instellen
+		if (! diff_s >> difficulty) difficulty = 3;
+	}
+
+	cout << "Moeilijkheidsgraad AI (3 easy --> 0 hard): " << difficulty << endl;
+
+	// config init
 	vector<string> shipNames;
 	vector<int> shipLengths;
 	vector<int> shipCounts;
@@ -65,7 +75,7 @@ int main() {
 
 	// Init classe
 	cout << "Initialiseren van het spel..." << endl;
-	Game zeeslag { xLimit, yLimit };
+	Game zeeslag { xLimit, yLimit, difficulty };
 
 	// Inlezen
 	cout << "Inlezen coordinaten..." << endl;
