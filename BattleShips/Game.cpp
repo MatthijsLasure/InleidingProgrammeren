@@ -35,8 +35,7 @@ Game::Game(int xi, int yi, int difficulty) {
  * Zal returnen wanneer er een Game Over is
  */
 void Game::gameLoop() {
-	board2 = board1;
-	myShips = board1.getShipCoords(); // #cheats
+	myShips = board1.getShipCoords();
 
 	// Initiële draw
 	battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
@@ -62,6 +61,7 @@ void Game::gameLoop() {
 		hasHit = board2.fire(pInput);
 		if (hasHit > 0) { // Hit
 			// check game over
+			if (hasHit == 2)
 			if(board2.hasLost()) {
 				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
 				gameOver = true;
@@ -71,13 +71,8 @@ void Game::gameLoop() {
 					<< ") heeft niets geraakt!" << endl;
 		}
 
-		for(Coordinates b : board2.getMissiles()) {
-			cout << b.getX() << " " << b.getY() << endl;
-		}
-
 		// Draw
-		battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
-				board1.getHits(), board1.getMissiles());
+		draw();
 
 		// Stop het spel indien player1 gewonnen heeft
 		if (gameOver) break;
@@ -103,8 +98,7 @@ void Game::gameLoop() {
 		}
 
 		// Draw again
-		battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
-				board1.getHits(), board1.getMissiles());
+		draw();
 	}
 }
 
@@ -130,10 +124,10 @@ void Game::addShip(int board, Coordinates pos, int length, char richting, string
  */
 bool Game::checkBounds(Coordinates pos, int length, char richting) {
 	if(richting == 'h') {
-		if(pos.getX() + length > xLimit) return(false);
+		if(pos.getX() + length - 1 > xLimit) return(false);
 		else return(true);
 	} else {
-		if(pos.getY() + length > yLimit) return(false);
+		if(pos.getY() + length - 1 > yLimit) return(false);
 		else return(true);
 	}
 }
@@ -210,4 +204,14 @@ Coordinates Game::player(int xLimit, int yLimit) {
 	} while (!inputOK);
 
 	return(input);
+}
+
+void Game::draw() {
+	battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
+					board1.getHits(), board1.getMissiles());
+}
+
+void Game::drawInit() {
+	myShips = board1.getShipCoords();
+	draw();
 }

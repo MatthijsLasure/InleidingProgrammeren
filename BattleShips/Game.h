@@ -22,6 +22,8 @@ public:
 
 	bool checkClipped(int, Coordinates, int, char);
 
+	void drawInit();
+
 private:
 	int xLimit, yLimit;
 
@@ -47,6 +49,7 @@ private:
 	 */
 	Coordinates player(int, int);
 
+	void draw();
 };
 
 #endif /* GAME_H_ */

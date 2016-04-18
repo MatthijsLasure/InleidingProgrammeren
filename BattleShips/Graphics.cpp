@@ -1,8 +1,11 @@
 /*
- *  * Graphics.cpp
+ * Graphics.h
  *
  *  Created on: 07 Apr 2016
- *      Author: gdaneels
+ *  Author: Glenn Daneels
+ *
+ * Class that draws a graphical representation of the battleships game.
+ * It writes the graphical (html) output to the show.html file.
  */
 
 #include <iostream>
@@ -14,14 +17,14 @@ using namespace std;
 /**
  * Constructor.
  */
-Graphics::Graphics() {}
+Graphics::Graphics(): m_width(0), m_height(0) {}
 
 /**
  * Setter that sets the dimensions of the game board. Necessary for drawing the game board correctly.
  * @param width The width of the game board.
  * @param height The height of the game board.
  */
-void Graphics::setDimensions(int width, int height) {
+void Graphics::setDimensions(const int& width, const int& height) {
 	m_width = width;
 	m_height = height;
 }
@@ -34,7 +37,7 @@ void Graphics::setDimensions(int width, int height) {
  * @param hostileHits The coordinates of all hits caused by a bomb of the AI player.
  * @param hostileBombs The coordinates of all the bombs placed by the AI player.
  */
-void Graphics::draw(vector<Coordinates> friendlyShips, vector<Coordinates> friendlyBombs, vector<Coordinates> friendlyHits, vector<Coordinates> hostileHits, vector<Coordinates> hostileBombs) {
+void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coordinates>& friendlyBombs, const vector<Coordinates>& friendlyHits, const vector<Coordinates>& hostileHits, const vector<Coordinates>& hostileBombs) {
 	ofstream output{"show.html"};
 	if(!output) {
 		cout << "Het output bestand kon niet geopend worden\n" << endl;
@@ -67,9 +70,9 @@ void Graphics::draw(vector<Coordinates> friendlyShips, vector<Coordinates> frien
 					}
 				}
 				if (isBombCell && isHitCell)
-					output <<  "<td id=\"bomb-hit\"><img id=\"bomb-image\"></td>" << endl;
+					output <<  "<td id=\"bomb-hit\"><div id=\"bomb-image\"></div></td>" << endl;
 				else if (isBombCell)
-					output << "<td id=\"bomb\"><img id=\"bomb-image\"></td>" << endl;
+					output << "<td id=\"bomb\"><div id=\"bomb-image\"></div></td>" << endl;
 				else
 					output << "<td></td>" << endl;
 			}
@@ -110,11 +113,11 @@ void Graphics::draw(vector<Coordinates> friendlyShips, vector<Coordinates> frien
 					}
 				}
 				if (isShipCell && isHitCell)
-					output <<  "<td id=\"bomb-hit\"><img id=\"hit-image\" /></td>" << endl;
+					output <<  "<td id=\"ship\"><div id=\"hit-image\" /></div></td>" << endl;
 				else if (isShipCell)
 					output << "<td id=\"ship\"></td>" << endl;
 				else if (isBombCell)
-					output << "<td id=\"bomb\"><img id=\"bomb-image\"></td>" << endl;
+					output << "<td id=\"bomb\"><div id=\"bomb-image\"></div></td>" << endl;
 				else
 					output << "<td></td>" << endl;
 			}

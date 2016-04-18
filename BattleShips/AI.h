@@ -45,6 +45,7 @@ private:
 	 * 6: op zoek naar schepen, niet volgens patroon
 	 */
 	int mode = 0;
+	int defmode = 0; // Standaard modus
 
 	/*
 	 * De zoekrichting bij de jacht

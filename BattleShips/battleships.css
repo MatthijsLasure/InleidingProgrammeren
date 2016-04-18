@@ -24,21 +24,18 @@ td#ship {
 	background-color: gray;
 }
 
-td#bomb {
-	background-color: red;
-}
 td#bomb-hit {
 	background-color: green;
 }
 
-img#hit-image {
-    image:url("hit.png");
+div#hit-image {
+    background:url('hit_klein.png') no-repeat;
     width: 17px;
     height: 17px;
 }
 
-img#bomb-image {
-    content:url("bomb.png");
+div#bomb-image {
+    background:url('bomb_klein.png') no-repeat;
     width: 17px;
     height: 17px;
 }

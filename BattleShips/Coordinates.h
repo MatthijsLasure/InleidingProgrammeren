@@ -17,7 +17,7 @@ public:
 	 * @param x The initial x-coordinate.
 	 * @param y The initial y-coordinate.
 	 */
-	Coordinates(int x, int y) : m_x(x), m_y(y) {}
+	Coordinates(const int& x, const int& y) : m_x(x), m_y(y) {}
 	/**
 	 * Getter for the x coordinate.
 	 * @return The x coordinate.

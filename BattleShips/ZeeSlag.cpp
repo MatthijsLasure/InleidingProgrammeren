@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <limits>
+#include <time.h>
 
 #include "Coordinates.h"
 #include "Ship.h"
@@ -20,11 +21,15 @@ int main(int argc, char *argv[]) {
 	cout << "Klaar voor een spelletje zeeslag?\n(C) Matthijs Lasure" << endl;
 	cout << argc << endl;
 
+	 /* initialize random seed: */
+	  srand (time(NULL));
+
 	// Arguments
 	int difficulty = 3;
 	if (argc == 2) {
 		stringstream diff_s(argv[1]); // Moeilijkheidsgraad instellen
-		if (! diff_s >> difficulty) difficulty = 3;
+		cout << argv[1] << endl;
+		if (! (diff_s >> difficulty) ) difficulty = 3;
 	}
 
 	cout << "Moeilijkheidsgraad AI (3 easy --> 0 hard): " << difficulty << endl;
@@ -83,58 +88,133 @@ int main(int argc, char *argv[]) {
 	char dir;
 	bool inputOK;
 
-	for (int i = 0; i < shipNames.size(); i++) {
-		for (int j = 0; j < shipCounts[i]; j++) {
-			inputOK = false;
-			// Loop tot er een juiste input is
-			do {
-				// Vraag
-				cout << "Geef de positie van een " << shipNames[i]
-						<< " (X Y dir): ";
+	zeeslag.drawInit();
 
-				// Antwoord
+	// Player
+	if(true) {
+		for (int i = 0; i < shipNames.size(); i++) {
+			for (int j = 0; j < shipCounts[i]; j++) {
+				inputOK = false;
+				// Loop tot er een juiste input is
+				do {
+					// Vraag
+					cout << "Geef de positie van een " << shipNames[i]
+							<< "(lengte " << shipLengths[i] << ") (X Y dir): ";
 
-//			    sline.clear();
-//			    sline.ignore(numeric_limits<streamsize>::max(), '\n');
-//
-//			    cin >> line;
-//			    sline << line;
-				cin >> x >> y >> dir;
+					// Antwoord
+					cin >> x >> y >> dir;
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-			    cin.clear();
-			    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					if (dir == 'H') dir = 'h';
+					else if (dir == 'V') dir = 'v';
 
-				cout << x << y << dir << endl;
-				Coordinates input { x, y }; // Process
+					Coordinates input { x, y }; // Process
 
-				// Check de input
-				if (x > 0 && x <= xLimit && y > 0 && y <= yLimit && (dir == 'h' || dir == 'v')) {
-					// Input is OK, check of het schip niet buiten de grenzen valt
-					if (zeeslag.checkBounds(input, shipLengths[i], dir)) {
-						// Binnen grenzen, check of er geen conflict is
-						if(zeeslag.checkClipped(1, input, shipLengths[i], dir)) {
-							// Zal botsen, dus opnieuw vragen
-							cout << "Daar ligt al een schip. Probeer opnieuw." << endl;
-							inputOK = false;
+					// Check de input
+					if (x > 0 && x <= xLimit && y > 0 && y <= yLimit && (dir == 'h' || dir == 'v')) {
+						// Input is OK, check of het schip niet buiten de grenzen valt
+						if (zeeslag.checkBounds(input, shipLengths[i], dir)) {
+							// Binnen grenzen, check of er geen conflict is
+							if(zeeslag.checkClipped(1, input, shipLengths[i], dir)) {
+								// Zal botsen, dus opnieuw vragen
+								cout << "Daar ligt al een schip. Probeer opnieuw." << endl;
+								inputOK = false;
+							} else {
+								// Geen problemen, dus voeg het schip toe.
+								zeeslag.addShip(1, input, shipLengths[i], dir, shipNames[i]);
+								zeeslag.drawInit();
+								inputOK = true;
+							}
 						} else {
-							// Geen problemen, dus voeg het schip toe.
-							zeeslag.addShip(1, input, shipLengths[i], dir, shipNames[i]);
-							inputOK = true;
+							// Buiten grenzen
+							cout << "Het schip ligt niet binnen de grenzen. Probeer opnieuw." << endl;
+							inputOK = false;
 						}
 					} else {
-						// Buiten grenzen
-						cout << "Het schip ligt niet binnen de grenzen. Probeer opnieuw." << endl;
-						inputOK = false;
+						// Slechte input
+						cout << "De gegevens zijn incorrect. Geef 2 gehele getallen en een 'h' of een 'v'." << endl;
+						cout << "X moet tussen 1 en " << xLimit << " liggen, en Y tussen 1 en " << yLimit << "." << endl;
 					}
-				} else {
-					// Slechte input
-					cout << "De gegevens zijn incorrect. Geef 2 gehele getallen en een 'h' of een 'v'." << endl;
-					cout << "X moet tussen 1 en " << xLimit << " liggen, en Y tussen 1 en " << yLimit << "." << endl;
-				}
-			} while (! inputOK);
+				} while (! inputOK);
+			}
 		}
+	} else {
+		for (int i = 0; i < shipNames.size(); i++) {
+				for (int j = 0; j < shipCounts[i]; j++) {
+					inputOK = false;
+					// Loop tot er een juiste input is
+					do {
+						x = rand() % xLimit + 1;
+						y = rand() % yLimit + 1;
+						if( rand() % 100 < 50) dir = 'h';
+						else dir = 'v';
+
+						Coordinates input { x, y }; // Process
+
+						// Check de input
+						if (x > 0 && x <= xLimit && y > 0 && y <= yLimit && (dir == 'h' || dir == 'v')) {
+							// Input is OK, check of het schip niet buiten de grenzen valt
+							if (zeeslag.checkBounds(input, shipLengths[i], dir)) {
+								// Binnen grenzen, check of er geen conflict is
+								if(zeeslag.checkClipped(1, input, shipLengths[i], dir)) {
+									// Zal botsen, dus opnieuw vragen
+									inputOK = false;
+								} else {
+									// Geen problemen, dus voeg het schip toe.
+									zeeslag.addShip(1, input, shipLengths[i], dir, shipNames[i]);
+									inputOK = true;
+								}
+							} else {
+								// Buiten grenzen
+								inputOK = false;
+							}
+						} else {
+							// Slechte input
+							inputOK = false;
+						}
+					} while (! inputOK);
+				}
+			}
 	}
 
+	// AI
+	for (int i = 0; i < shipNames.size(); i++) {
+			for (int j = 0; j < shipCounts[i]; j++) {
+				inputOK = false;
+				// Loop tot er een juiste input is
+				do {
+					x = rand() % xLimit + 1;
+					y = rand() % yLimit + 1;
+					if( rand() % 100 < 50) dir = 'h';
+					else dir = 'v';
+
+					Coordinates input { x, y }; // Process
+
+					// Check de input
+					if (x > 0 && x <= xLimit && y > 0 && y <= yLimit && (dir == 'h' || dir == 'v')) {
+						// Input is OK, check of het schip niet buiten de grenzen valt
+						if (zeeslag.checkBounds(input, shipLengths[i], dir)) {
+							// Binnen grenzen, check of er geen conflict is
+							if(zeeslag.checkClipped(2, input, shipLengths[i], dir)) {
+								// Zal botsen, dus opnieuw vragen
+								inputOK = false;
+							} else {
+								// Geen problemen, dus voeg het schip toe.
+								zeeslag.addShip(2, input, shipLengths[i], dir, shipNames[i]);
+								inputOK = true;
+							}
+						} else {
+							// Buiten grenzen
+							inputOK = false;
+						}
+					} else {
+						// Slechte input
+						inputOK = false;
+					}
+				} while (! inputOK);
+			}
+		}
 
 	// Start het spel!
 	zeeslag.gameLoop();
@@ -143,3 +223,5 @@ int main(int argc, char *argv[]) {
 	cout << "Programma is afgelopen. Tot de volgende keer!" << endl;
 	return (0);
 }
+
+
