@@ -40,32 +40,21 @@ vector<Coordinates> GameBoard::getShipCoords() {
 int GameBoard::fire(Coordinates missile) {
 	// Zet op de lijst van raketten
 	myMissiles.push_back(missile);
-//	for (Ship ship : myShips) {
-//		if(ship.isHit(missile)) {
-//			cout << "De raket op (" << missile.getX() << " " << missile.getY()
-//					<< ") heeft het schip " << ship.getName()
-//					<< " (lengte " << ship.getLength() << ") geraakt!" << endl;
-//			myHits.push_back(missile);
-//			return(true);
-//		}
-//	}
-
 	// Loop over alle schepen, check of ze geraakt zijn
 	// Note: geen loop over array, maar met indiches: we moeten de params in de vector aanpassen,
 	// niet aan een gekopieerd object
-	for (int i = 0; i < myShips.size(); i++) {
-		if(myShips[i].isHit(missile)) {
-			// Schip is geraakt, print info
+	for (Ship &ship : myShips) {
+		if(ship.isHit(missile)) {
 			cout << "De raket op (" << missile.getX() << " " << missile.getY()
-					<< ") heeft het schip '" << myShips[i].getName()
-					<< "' (lengte " << myShips[i].getLength() << ") geraakt!" << endl;
-			// Zet op de lijst met hits
+					<< ") heeft het schip " << ship.getName()
+					<< " (lengte " << ship.getLength() << ") geraakt!" << endl;
 			myHits.push_back(missile);
 
-			if(myShips[i].isDead()) return (2);
-			else return(1);
+			if (ship.isDead()) return (2);
+			else return (1);
 		}
 	}
+
 	// For lus heeft niets gereturned, dus niets geraakt, dus false
 	return(0);
 }
