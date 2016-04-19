@@ -43,15 +43,18 @@ int main() {
 //		cin.clear();
 //		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-	ifstream config{ configName.c_str() };
-	if (! config) {
+	ifstream config { configName.c_str() };
+	if (!config) {
 		cout << "Error reading config! Check filename and access." << endl;
-		return(1);
+		return (1);
 	}
 
-	cout << "Geef de moeilijksheidsgraad van de AI. Volgende opties zijn mogelijk:" << endl;
+	cout
+			<< "Geef de moeilijksheidsgraad van de AI. Volgende opties zijn mogelijk:"
+			<< endl;
 	cout << "3: Volledig random" << endl;
-	cout << "2: Shiphunter: zal naar de rest van het schip zoeken bij een hit" << endl;
+	cout << "2: Shiphunter: zal naar de rest van het schip zoeken bij een hit"
+			<< endl;
 	cout << "1: Checkerboard: zal in een dampatroon bombarderen" << endl;
 	cout << "0: Hardcore: zelfde als modes 1 + 2." << endl;
 

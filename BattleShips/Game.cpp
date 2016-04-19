@@ -14,10 +14,11 @@
 
 using namespace std;
 
-Game::Game(int xi, int yi, int difficulty) {
+Game::Game(int xi, int yi, int diffi) {
 	gameOver = false;
 	xLimit = xi;
 	yLimit = yi;
+	difficulty = diffi;
 
 	board1 = GameBoard { xLimit, yLimit };
 	board2 = GameBoard { xLimit, yLimit };
@@ -55,19 +56,21 @@ void Game::gameLoop() {
 		// Speler
 		// ======
 		// Vraag input
-//		pInput = player(xLimit, yLimit);
-//		hasHit = board2.fire(pInput);
-//		if (hasHit > 0) { // Hit
-//			// check game over
-//			if (hasHit == 2)
-//			if(board2.hasLost()) {
-//				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
-//				gameOver = true;
-//			}
-//		} else {
-//			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
-//					<< ") heeft niets geraakt!" << endl;
-//		}
+		pInput = player(xLimit, yLimit);
+		hasHit = board2.fire(pInput);
+		if (hasHit > 0) { // Hit
+			// check game over
+			if (hasHit == 2)
+				if (board2.hasLost()) {
+					cout
+							<< "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!"
+							<< endl;
+					gameOver = true;
+				}
+		} else {
+			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
+					<< ") heeft niets geraakt!" << endl;
+		}
 
 		// Draw
 		draw();
