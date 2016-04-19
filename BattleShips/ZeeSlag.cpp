@@ -108,7 +108,7 @@ int main() {
 		zeeslag.drawInit();
 
 		// Player
-		if (false) {
+		if (true) {
 			for (int i = 0; i < shipNames.size(); i++) {
 				for (int j = 0; j < shipCounts[i]; j++) {
 					inputOK = false;
@@ -264,6 +264,7 @@ int main() {
 
 		string repeat;
 		cout << "Dit spel is afgelopen. Wil je nog eens spelen (y/j/ja voor ja, anders nee): ";
+
 		cin >> repeat;
 		if (repeat == "y" || repeat == "j" || repeat == "ja")
 			doRepeat = true;
