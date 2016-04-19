@@ -20,8 +20,14 @@ public:
 	 */
 	GameBoard(int, int);
 
-	vector<Coordinates> getMissiles() { return(myMissiles); };
-	vector<Coordinates> getHits() { return(myHits); };
+	vector<Coordinates> getMissiles() {
+		return (myMissiles);
+	}
+	;
+	vector<Coordinates> getHits() {
+		return (myHits);
+	}
+	;
 
 	/*
 	 * getShipCoords: geef alle locaties ingenomen door de schepen van dit GameBoard
@@ -48,8 +54,5 @@ private:
 	vector<Coordinates> myMissiles; // Gemiste raketten van de andere
 	vector<Coordinates> myHits; // Hits toegebracht door de andere
 };
-
-
-
 
 #endif /* GAMEBOARD_H_ */

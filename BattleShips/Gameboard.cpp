@@ -29,7 +29,7 @@ vector<Coordinates> GameBoard::getShipCoords() {
 		}
 		//total.insert(total.end(), ship.getCoords().begin(), ship.getCoords().end());
 	}
-	return(total);
+	return (total);
 }
 
 /*
@@ -44,21 +44,22 @@ int GameBoard::fire(Coordinates missile) {
 	// Note: geen loop over array, maar met indiches: we moeten de params in de vector aanpassen,
 	// niet aan een gekopieerd object
 	for (Ship &ship : myShips) {
-		if(ship.isHit(missile)) {
+		if (ship.isHit(missile)) {
 			cout << "De raket op (" << missile.getX() << " " << missile.getY()
 					<< ") heeft een schip geraakt!" << endl;
 			myHits.push_back(missile);
 
 			if (ship.isDead()) {
-				cout << "Het schip " << ship.getName() << " is gezonken!" << endl;
+				cout << "Het schip " << ship.getName() << " is gezonken!"
+						<< endl;
 				return (2);
-			}
-			else return (1);
+			} else
+				return (1);
 		}
 	}
 
 	// For lus heeft niets gereturned, dus niets geraakt, dus false
-	return(0);
+	return (0);
 }
 
 /*
@@ -67,12 +68,12 @@ int GameBoard::fire(Coordinates missile) {
  */
 bool GameBoard::hasLost() {
 	for (Ship ship : myShips) {
-		if(!ship.isDead()) { // Een schip drijft nog
-			return(false);
+		if (!ship.isDead()) { // Een schip drijft nog
+			return (false);
 		}
 	}
 	// Alle schepen zijn gezonken
-	return(true);
+	return (true);
 }
 
 /*
@@ -82,8 +83,9 @@ bool GameBoard::hasLost() {
  * @param richting orientatie van het nieuwe schip
  * @param naam De naam van het nieuwe schip
  */
-void GameBoard::addShip(Coordinates pos, int length, char richting, string name) {
-	myShips.push_back(Ship{pos, length, richting, name});
+void GameBoard::addShip(Coordinates pos, int length, char richting,
+		string name) {
+	myShips.push_back(Ship { pos, length, richting, name });
 }
 
 /*
@@ -93,9 +95,11 @@ void GameBoard::addShip(Coordinates pos, int length, char richting, string name)
  */
 bool GameBoard::checkMissile(Coordinates newMissile) {
 	// Loop over alle afgevuurde missiles
-	for(Coordinates missile : myMissiles) {
+	for (Coordinates missile : myMissiles) {
 		// Check of er al een is
-		if (newMissile.getX() == missile.getX() && newMissile.getY() == missile.getY()) return true;
+		if (newMissile.getX() == missile.getX()
+				&& newMissile.getY() == missile.getY())
+			return true;
 	}
 	return false;
 }

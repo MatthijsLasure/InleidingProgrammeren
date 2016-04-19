@@ -36,7 +36,11 @@ public:
 	 * @param hostileHits The coordinates of all hits caused by a bomb of the AI player.
 	 * @param hostileBombs The coordinates of all the bombs placed by the AI player.
 	 */
-	void draw(const vector<Coordinates>& friendlyShips, const vector<Coordinates>& friendlyHits, const vector<Coordinates>& friendlyBombs, const vector<Coordinates>& hostileHits, const vector<Coordinates>& hostileBombs);
+	void draw(const vector<Coordinates>& friendlyShips,
+			const vector<Coordinates>& friendlyHits,
+			const vector<Coordinates>& friendlyBombs,
+			const vector<Coordinates>& hostileHits,
+			const vector<Coordinates>& hostileBombs);
 private:
 	int m_width;
 	int m_height;

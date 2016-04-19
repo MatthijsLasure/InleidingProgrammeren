@@ -17,7 +17,9 @@ using namespace std;
 /**
  * Constructor.
  */
-Graphics::Graphics(): m_width(0), m_height(0) {}
+Graphics::Graphics() :
+		m_width(0), m_height(0) {
+}
 
 /**
  * Setter that sets the dimensions of the game board. Necessary for drawing the game board correctly.
@@ -37,18 +39,29 @@ void Graphics::setDimensions(const int& width, const int& height) {
  * @param hostileHits The coordinates of all hits caused by a bomb of the AI player.
  * @param hostileBombs The coordinates of all the bombs placed by the AI player.
  */
-void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coordinates>& friendlyHits, const vector<Coordinates>& friendlyBombs, const vector<Coordinates>& hostileHits, const vector<Coordinates>& hostileBombs) {
-	ofstream output{"show.html"};
-	if(!output) {
+void Graphics::draw(const vector<Coordinates>& friendlyShips,
+		const vector<Coordinates>& friendlyHits,
+		const vector<Coordinates>& friendlyBombs,
+		const vector<Coordinates>& hostileHits,
+		const vector<Coordinates>& hostileBombs) {
+	ofstream output { "show.html" };
+	if (!output) {
 		cout << "Het output bestand kon niet geopend worden\n" << endl;
 	} else {
 		string refreshRate = "1000";
 
-		output << "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><script src=\"battleships.js\"></script><link rel=\"stylesheet\" type=\"text/css\" href=\"battleships.css\"><title></title></head><body onload=\"checkForRefresh(" << refreshRate << ");\">" << endl;
-		output << "<h1>Battleships</h1><div style=\"text-align: center\"><div style=\"display: inline-block;\"><input type=\"button\" value=\"Vernieuw 1 keer\" onClick=\"window.location.reload()\"><input type=\"button\" onclick=\"startRefresh(" << refreshRate << ")\" id=\"start\" value=\"Start automatisch vernieuwen\"><input type=\"button\" onclick=\"stopRefresh()\" id=\"stop\" value=\"Stop automatisch vernieuwen\"><br /><br />" << endl;
+		output
+				<< "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head><script src=\"battleships.js\"></script><link rel=\"stylesheet\" type=\"text/css\" href=\"battleships.css\"><title></title></head><body onload=\"checkForRefresh("
+				<< refreshRate << ");\">" << endl;
+		output
+				<< "<h1>Battleships</h1><div style=\"text-align: center\"><div style=\"display: inline-block;\"><input type=\"button\" value=\"Vernieuw 1 keer\" onClick=\"window.location.reload()\"><input type=\"button\" onclick=\"startRefresh("
+				<< refreshRate
+				<< ")\" id=\"start\" value=\"Start automatisch vernieuwen\"><input type=\"button\" onclick=\"stopRefresh()\" id=\"stop\" value=\"Stop automatisch vernieuwen\"><br /><br />"
+				<< endl;
 		// Draw the bombs table.
 		output << "<table id=\"bombs\">" << endl;
-		output << "<tr><td align=\"center\" colspan=\"" << m_width + 1 << "\"><b>Your Placed Bombs</b></td></tr><tr><td></td>" << endl;
+		output << "<tr><td align=\"center\" colspan=\"" << m_width + 1
+				<< "\"><b>Your Placed Bombs</b></td></tr><tr><td></td>" << endl;
 		for (int x = 1; x <= m_width; x++)
 			output << "<td>" << x << "</td>" << endl;
 		output << "</tr>" << endl;
@@ -70,9 +83,13 @@ void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coord
 					}
 				}
 				if (isBombCell && isHitCell)
-					output <<  "<td id=\"bomb-hit\"><div id=\"bomb-image\"></div></td>" << endl;
+					output
+							<< "<td id=\"bomb-hit\"><div id=\"bomb-image\"></div></td>"
+							<< endl;
 				else if (isBombCell)
-					output << "<td id=\"bomb\"><div id=\"bomb-image\"></div></td>" << endl;
+					output
+							<< "<td id=\"bomb\"><div id=\"bomb-image\"></div></td>"
+							<< endl;
 				else
 					output << "<td></td>" << endl;
 			}
@@ -84,7 +101,9 @@ void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coord
 
 		// Draw the bombs table.
 		output << "<table id=\"ships\">" << endl;
-		output << "<tr><td align=\"center\" colspan=\"" << m_width + 1 << "\"><b>Your Ships and Hits</b></td></tr><tr><td></td>" << endl;
+		output << "<tr><td align=\"center\" colspan=\"" << m_width + 1
+				<< "\"><b>Your Ships and Hits</b></td></tr><tr><td></td>"
+				<< endl;
 		for (int x = 1; x <= m_width; x++)
 			output << "<td>" << x << "</td>" << endl;
 		output << "</tr>" << endl;
@@ -113,11 +132,15 @@ void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coord
 					}
 				}
 				if (isShipCell && isHitCell)
-					output <<  "<td id=\"ship\"><div id=\"hit-image\" /></div></td>" << endl;
+					output
+							<< "<td id=\"ship\"><div id=\"hit-image\" /></div></td>"
+							<< endl;
 				else if (isShipCell)
 					output << "<td id=\"ship\"></td>" << endl;
 				else if (isBombCell)
-					output << "<td id=\"bomb\"><div id=\"bomb-image\"></div></td>" << endl;
+					output
+							<< "<td id=\"bomb\"><div id=\"bomb-image\"></div></td>"
+							<< endl;
 				else
 					output << "<td></td>" << endl;
 			}
@@ -129,6 +152,4 @@ void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coord
 		output << "</body></html>" << endl;
 	}
 }
-
-
 

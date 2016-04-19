@@ -23,17 +23,17 @@ Ship::Ship(Coordinates pos, int lengthi, char richting, string name) {
 	length = lengthi;
 	hits = 0;
 
-	if ( richting == 'h' ) { // Horizontaal
+	if (richting == 'h') { // Horizontaal
 		// Voor de hele lengte, maak een nieuwe Coordinates in de vector aan
 		for (int i = 0; i < length; i++) {
 			// Zet de coords bij op de vector
-			locations.push_back(Coordinates{pos.getX() + i, pos.getY()});
+			locations.push_back(Coordinates { pos.getX() + i, pos.getY() });
 		}
 	} else { // Vertikaal
 		// Voor de hele lengte, maak een nieuwe Coordinates in de vector aan
 		for (int i = 0; i < length; i++) {
 			// Zet de coords bij op de vector
-			locations.push_back(Coordinates{pos.getX(), pos.getY() + i});
+			locations.push_back(Coordinates { pos.getX(), pos.getY() + i });
 		}
 	}
 
@@ -51,15 +51,15 @@ Ship::Ship(Coordinates pos, int lengthi, char richting, string name) {
 bool Ship::isHit(Coordinates missile) {
 	// Loop over alle locaties vh schip
 	for (Coordinates loc : locations) {
-		if(missile.getX() == loc.getX() && missile.getY() == loc.getY()) { // Hit!
+		if (missile.getX() == loc.getX() && missile.getY() == loc.getY()) { // Hit!
 
 			hits++;
-			if(hits == length) {
+			if (hits == length) {
 				dead = true;
 			}
-			return(true);
+			return (true);
 
 		}
 	}
-	return(false); // Miss!
+	return (false); // Miss!
 }

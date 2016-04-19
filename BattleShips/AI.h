@@ -57,13 +57,10 @@ private:
 	int zoekrichting = 0;
 	int xLimit, yLimit;
 
-	Coordinates lastHit{0, 0};
-	Coordinates firstHit{0, 0};
+	Coordinates lastHit { 0, 0 };
+	Coordinates firstHit { 0, 0 };
 
 	vector<Coordinates> checkers;
 };
-
-
-
 
 #endif /* AI_H_ */

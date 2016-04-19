@@ -12,7 +12,9 @@
 
 using namespace std;
 
-AI::AI() { };
+AI::AI() {
+}
+;
 
 void AI::init(int diffi, int xL, int yL) {
 	difficulty = diffi;
@@ -24,17 +26,21 @@ void AI::init(int diffi, int xL, int yL) {
 		// Vul de checkers matrix
 		bool value = false;
 		bool rowInit = false;
-		if (rand() % 100 + 1 > 50) rowInit = true;
+		if (rand() % 100 + 1 > 50)
+			rowInit = true;
 
 		for (int i = 0; i < xLimit; i++) {
-			if (rowInit) rowInit = false;
-			else rowInit = true;
+			if (rowInit)
+				rowInit = false;
+			else
+				rowInit = true;
 			value = rowInit;
 			for (int j = 0; j < yLimit; j++) {
 				if (value) {
-					checkers.push_back(Coordinates{i + 1,j + 1});
+					checkers.push_back(Coordinates { i + 1, j + 1 });
 					value = false;
-				} else value = true;
+				} else
+					value = true;
 			}
 		}
 	} // Einde checkers matrix init
@@ -42,26 +48,22 @@ void AI::init(int diffi, int xL, int yL) {
 	if (difficulty >= 2) {
 		mode = 6; // Random hunt
 		defmode = 6;
-	}
-	else {
+	} else {
 		mode = 0; // Checkers
 		defmode = 0;
 	}
 }
 
 Coordinates AI::getMove(GameBoard board) {
-	Coordinates answer{0,0};
+	Coordinates answer { 0, 0 };
 	vector<Coordinates> avail;
 	int abc, x, y;
 	switch (mode) {
 	case 0: // Checkerboard pattern
 		checkers.erase(
-				remove_if(
-						checkers.begin(),
-						checkers.end(),
-						[&board](const Coordinates & o) { return board.checkMissile(o); }),
-				checkers.end()
-		);
+				remove_if(checkers.begin(), checkers.end(),
+						[&board](const Coordinates & o) {return board.checkMissile(o);}),
+				checkers.end());
 
 		if (checkers.size() > 0) {
 
@@ -76,33 +78,37 @@ Coordinates AI::getMove(GameBoard board) {
 				int x = rand() % xLimit + 1;
 				int y = rand() % yLimit + 1;
 
-				answer = Coordinates{x, y};
+				answer = Coordinates { x, y };
 
 			} while (board.checkMissile(answer));
 		}
 		break;
 	case 1: // Has hit once, fire in vicinity
 		for (int i = -1; i <= 1; i += 2) {
-			answer = Coordinates{i + firstHit.getX(), firstHit.getY()};
-			if(! board.checkMissile(answer))
+			answer = Coordinates { i + firstHit.getX(), firstHit.getY() };
+			if (!board.checkMissile(answer))
 				avail.push_back(answer);
 
-			answer = Coordinates{firstHit.getX(), i + firstHit.getY()};
-			if(! board.checkMissile(answer))
+			answer = Coordinates { firstHit.getX(), i + firstHit.getY() };
+			if (!board.checkMissile(answer))
 				avail.push_back(answer);
 		}
 
-		if (avail.size() > 0 ) {
+		if (avail.size() > 0) {
 
 			answer = avail[rand() % avail.size()];
 
 			x = answer.getX() - firstHit.getX();
 			y = answer.getY() - firstHit.getY();
 
-			if (x == -1) zoekrichting = 3; // West
-			else if (x == 1) zoekrichting = 1; // East
-			else if (y == -1) zoekrichting = 0; // North
-			else zoekrichting = 2; // South
+			if (x == -1)
+				zoekrichting = 3; // West
+			else if (x == 1)
+				zoekrichting = 1; // East
+			else if (y == -1)
+				zoekrichting = 0; // North
+			else
+				zoekrichting = 2; // South
 
 		} else {
 
@@ -111,7 +117,7 @@ Coordinates AI::getMove(GameBoard board) {
 				int x = rand() % xLimit + 1;
 				int y = rand() % yLimit + 1;
 
-				answer = Coordinates{x, y};
+				answer = Coordinates { x, y };
 
 			} while (board.checkMissile(answer));
 		}
@@ -135,12 +141,13 @@ Coordinates AI::getMove(GameBoard board) {
 			answer.setX(lastHit.getX() - 1);
 			break;
 		}
-		if ( !board.checkMissile(answer)) // Check legit, anders andere kant
+		if (!board.checkMissile(answer)) // Check legit, anders andere kant
 			break;
 		else {
 			mode = 5;
 			zoekrichting += 2;
-			if (zoekrichting > 3) zoekrichting -= 4;
+			if (zoekrichting > 3)
+				zoekrichting -= 4;
 			lastHit = firstHit;
 		}
 	case 5:
@@ -159,7 +166,7 @@ Coordinates AI::getMove(GameBoard board) {
 			answer.setX(lastHit.getX() - 1);
 			break;
 		}
-		if ( !board.checkMissile(answer)) // Check legit
+		if (!board.checkMissile(answer)) // Check legit
 			break; // If legit, quit switch, go to return
 		else { // Indien niet legit, blijf in de switch, en ga naar 6
 			mode = defmode;
@@ -169,17 +176,18 @@ Coordinates AI::getMove(GameBoard board) {
 			int x = rand() % xLimit + 1;
 			int y = rand() % yLimit + 1;
 
-			answer = Coordinates{x, y};
+			answer = Coordinates { x, y };
 
 		} while (board.checkMissile(answer));
 
 	}
 
-	return(answer);
+	return (answer);
 }
 
 void AI::hasHit(Coordinates hit, int severity) {
-	if (severity > 0) lastHit = hit;
+	if (severity > 0)
+		lastHit = hit;
 
 	if (difficulty == 2 || difficulty == 0) {
 		switch (mode) {
@@ -192,23 +200,24 @@ void AI::hasHit(Coordinates hit, int severity) {
 			} else if (severity == 2) // Mocht er ooit een 1 vak schip zijn :)
 				mode = defmode;
 			break;
-		// First hunting, looking for the rest of the ship
+			// First hunting, looking for the rest of the ship
 		case 1:
-			if(severity == 1) mode = 4;
+			if (severity == 1)
+				mode = 4;
 			else if (severity == 2)
 				mode = defmode;
 			break;
 		case 2: // Deprecated
 		case 3:
 			break;
-		// Schieten op de rest vh schip, deel 1
+			// Schieten op de rest vh schip, deel 1
 		case 4:
 			if (severity == 0)
 				mode = 5;
-			else if(severity == 2)
+			else if (severity == 2)
 				mode = defmode;
 			break;
-		// Schieten op de rest vh schip, deel 2
+			// Schieten op de rest vh schip, deel 2
 		case 5:
 			if (severity == 2 || severity == 0)
 				mode = defmode;

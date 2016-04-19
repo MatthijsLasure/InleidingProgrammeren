@@ -12,7 +12,6 @@
 #include "Graphics.h"
 #include "AI.h"
 
-
 using namespace std;
 
 Game::Game(int xi, int yi, int difficulty) {
@@ -20,8 +19,8 @@ Game::Game(int xi, int yi, int difficulty) {
 	xLimit = xi;
 	yLimit = yi;
 
-	board1 = GameBoard{xLimit, yLimit};
-	board2 = GameBoard{xLimit, yLimit};
+	board1 = GameBoard { xLimit, yLimit };
+	board2 = GameBoard { xLimit, yLimit };
 
 	// Instellen HTML
 	battlefield.setDimensions(xLimit, yLimit); // Set limits
@@ -48,10 +47,10 @@ void Game::gameLoop() {
 	int cyclus = 0;
 	int hasHit = 0;
 
-	while(! gameOver) {
+	while (!gameOver) {
 		cyclus++;
 		cout << "Spelronde " << cyclus << endl;
-		Coordinates pInput{0,0};
+		Coordinates pInput { 0, 0 };
 
 		// Speler
 		// ======
@@ -74,7 +73,8 @@ void Game::gameLoop() {
 		draw();
 
 		// Stop het spel indien player1 gewonnen heeft
-		if (gameOver) break;
+		if (gameOver)
+			break;
 
 		// AI
 		// ==
@@ -87,8 +87,10 @@ void Game::gameLoop() {
 
 		if (hasHit > 0) {
 			// check game over
-			if(board1.hasLost()) {
-				cout << "Alle schepen van speler 1 zijn gezonken! Je hebt verloren!" << endl;
+			if (board1.hasLost()) {
+				cout
+						<< "Alle schepen van speler 1 zijn gezonken! Je hebt verloren!"
+						<< endl;
 				gameOver = true;
 			}
 		} else {
@@ -109,9 +111,12 @@ void Game::gameLoop() {
  * @param richting de orientatie van het schip (h / v)
  * @param name de naam van het schip
  */
-void Game::addShip(int board, Coordinates pos, int length, char richting, string name) {
-	if(board == 1) board1.addShip(pos, length, richting, name);
-	else board2.addShip(pos, length, richting, name);
+void Game::addShip(int board, Coordinates pos, int length, char richting,
+		string name) {
+	if (board == 1)
+		board1.addShip(pos, length, richting, name);
+	else
+		board2.addShip(pos, length, richting, name);
 }
 
 /*
@@ -122,12 +127,16 @@ void Game::addShip(int board, Coordinates pos, int length, char richting, string
  * @return True indien het schip op deze plaats gelegd mag worden
  */
 bool Game::checkBounds(Coordinates pos, int length, char richting) {
-	if(richting == 'h') {
-		if(pos.getX() + length - 1 > xLimit) return(false);
-		else return(true);
+	if (richting == 'h') {
+		if (pos.getX() + length - 1 > xLimit)
+			return (false);
+		else
+			return (true);
 	} else {
-		if(pos.getY() + length - 1 > yLimit) return(false);
-		else return(true);
+		if (pos.getY() + length - 1 > yLimit)
+			return (false);
+		else
+			return (true);
 	}
 }
 
@@ -143,25 +152,31 @@ bool Game::checkClipped(int board, Coordinates pos, int length, char richting) {
 	vector<Coordinates> shipCoords;
 
 	// Haal de juiste coords op
-	if(board == 1) shipCoords = board1.getShipCoords();
-	else shipCoords = board2.getShipCoords();
+	if (board == 1)
+		shipCoords = board1.getShipCoords();
+	else
+		shipCoords = board2.getShipCoords();
 
-	if(richting == 'h') { // Horizontaal, dus x'en aanpassen
+	if (richting == 'h') { // Horizontaal, dus x'en aanpassen
 		for (Coordinates existing : shipCoords) { // Voor alle bestaande schepen
 			for (int i = 0; i < length; i++) { // Voor alle posities die ingenomen zullen worden
-				if(existing.getX() ==  pos.getX() + i && existing.getY() == pos.getY()) return(true);
+				if (existing.getX() == pos.getX() + i
+						&& existing.getY() == pos.getY())
+					return (true);
 			}
 		}
 	} else { // Vertikaal, dus y'en aanpassen
 		for (Coordinates existing : shipCoords) { // Voor alle bestaande schepen
 			for (int i = 0; i < length; i++) { // Voor alle posities die ingenomen zullen worden
-				if(existing.getX() ==  pos.getX() && existing.getY() == pos.getY() + i) return(true);
+				if (existing.getX() == pos.getX()
+						&& existing.getY() == pos.getY() + i)
+					return (true);
 			}
 		}
 	}
 
 	// Niets heeft gereturned, dus geen conflict
-	return(false);
+	return (false);
 }
 
 /*
@@ -171,7 +186,7 @@ bool Game::checkClipped(int board, Coordinates pos, int length, char richting) {
  * @return ingegeven coordinaten
  */
 Coordinates Game::player(int xLimit, int yLimit) {
-	Coordinates input{0,0};
+	Coordinates input { 0, 0 };
 	bool inputOK = false;
 	int x, y;
 
@@ -179,16 +194,16 @@ Coordinates Game::player(int xLimit, int yLimit) {
 		cout << "Klaar om te schieten, geef de coordinaten in: ";
 
 		cin >> x >> y;
-	    cin.clear();
-	    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 		// Check de input
-		if (x > 0 && x <= xLimit && y > 0 && y <= yLimit ) {
+		if (x > 0 && x <= xLimit && y > 0 && y <= yLimit) {
 			input.setX(x);
 			input.setY(y);
 
 			// Check of er daar nog niet gevuurd is
-			if(board2.checkMissile(input)) {
+			if (board2.checkMissile(input)) {
 				cout << "Daar is al geschoten. Probeer opnieuw!" << endl;
 				inputOK = false;
 			} else {
@@ -196,18 +211,18 @@ Coordinates Game::player(int xLimit, int yLimit) {
 			}
 		} else {
 			cout << "Foute input! Voer 2 gehele getallen in tussen 1 en "
-					<< xLimit << " voor de X en tussen 1 en "
-					<< yLimit << " voor de Y!" << endl;
+					<< xLimit << " voor de X en tussen 1 en " << yLimit
+					<< " voor de Y!" << endl;
 			inputOK = false;
 		}
 	} while (!inputOK);
 
-	return(input);
+	return (input);
 }
 
 void Game::draw() {
 	battlefield.draw(myShips, board2.getHits(), board2.getMissiles(),
-					board1.getHits(), board1.getMissiles());
+			board1.getHits(), board1.getMissiles());
 }
 
 void Game::drawInit() {

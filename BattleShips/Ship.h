@@ -24,14 +24,20 @@ public:
 	 */
 	Ship(Coordinates pos, int length, char richting, string name);
 
-	int getLength() { return(length); }
-	string getName() { return(schipNaam); }
+	int getLength() {
+		return (length);
+	}
+	string getName() {
+		return (schipNaam);
+	}
 
 	/*
 	 * Check of het schip gezonken is.
 	 * @return True indien het schip gezonken is.
 	 */
-	bool isDead() { return(dead); }
+	bool isDead() {
+		return (dead);
+	}
 
 	/*
 	 * Check of het schip geraakt is door een raket/bom, en stelt de variabelen in indien ja
@@ -44,7 +50,9 @@ public:
 	 * Geef de locaties terug
 	 * @return een vector met coordinaten
 	 */
-	vector<Coordinates> getCoords() { return(locations); }
+	vector<Coordinates> getCoords() {
+		return (locations);
+	}
 
 private:
 	bool dead; // Is het ship volledig gebombardeerd?
@@ -55,8 +63,5 @@ private:
 	string schipNaam;
 
 };
-
-
-
 
 #endif /* SHIP_H_ */

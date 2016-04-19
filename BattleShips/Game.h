@@ -29,8 +29,8 @@ private:
 
 	int difficulty;
 
-	GameBoard board1{1,1}; // De speler
-	GameBoard board2{1,1}; // AI
+	GameBoard board1 { 1, 1 }; // De speler
+	GameBoard board2 { 1, 1 }; // AI
 
 	//AI
 	AI gladOS;
