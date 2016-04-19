@@ -94,12 +94,17 @@ void GameBoard::addShip(Coordinates pos, int length, char richting,
  * @return True indien er al een raket is afgevuurd op die plaats
  */
 bool GameBoard::checkMissile(Coordinates newMissile) {
+	// Check grenzen
+	if (newMissile.getX() > xLimit || newMissile.getX() < 1
+			|| newMissile.getY() > yLimit || newMissile.getY() < 1)
+		return (true);
+
 	// Loop over alle afgevuurde missiles
 	for (Coordinates missile : myMissiles) {
 		// Check of er al een is
 		if (newMissile.getX() == missile.getX()
 				&& newMissile.getY() == missile.getY())
-			return true;
+			return (true);
 	}
-	return false;
+	return (false);
 }
