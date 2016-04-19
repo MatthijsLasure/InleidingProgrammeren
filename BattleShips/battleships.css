@@ -1,0 +1,41 @@
+body {
+	background-color: #3399ff;
+	text-align: center;
+}
+
+table {
+	float: left;
+	text-align: center;
+	background-color: #80d4ff;
+}
+
+td {
+	background-color: #80d4ff;
+    border: 1px solid black;
+    width: 25px;
+    height: 25px;
+}
+
+div{
+	margin-left: auto; margin-right: auto;
+}
+
+td#ship {
+	background-color: gray;
+}
+
+td#bomb-hit {
+	background-color: green;
+}
+
+div#hit-image {
+    background:url('hit_klein.png') no-repeat;
+    width: 17px;
+    height: 17px;
+}
+
+div#bomb-image {
+    background:url('bomb_klein.png') no-repeat;
+    width: 17px;
+    height: 17px;
+}
