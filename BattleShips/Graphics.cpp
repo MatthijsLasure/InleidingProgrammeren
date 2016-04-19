@@ -37,7 +37,7 @@ void Graphics::setDimensions(const int& width, const int& height) {
  * @param hostileHits The coordinates of all hits caused by a bomb of the AI player.
  * @param hostileBombs The coordinates of all the bombs placed by the AI player.
  */
-void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coordinates>& friendlyBombs, const vector<Coordinates>& friendlyHits, const vector<Coordinates>& hostileHits, const vector<Coordinates>& hostileBombs) {
+void Graphics::draw(const vector<Coordinates>& friendlyShips, const vector<Coordinates>& friendlyHits, const vector<Coordinates>& friendlyBombs, const vector<Coordinates>& hostileHits, const vector<Coordinates>& hostileBombs) {
 	ofstream output{"show.html"};
 	if(!output) {
 		cout << "Het output bestand kon niet geopend worden\n" << endl;

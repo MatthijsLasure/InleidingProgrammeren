@@ -38,8 +38,7 @@ void Game::gameLoop() {
 	myShips = board1.getShipCoords();
 
 	// Initiële draw
-	battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
-			board1.getMissiles(), board1.getHits());
+	draw();
 
 	// DEBUG
 //	for (Coordinates s : myShips) {
@@ -57,19 +56,19 @@ void Game::gameLoop() {
 		// Speler
 		// ======
 		// Vraag input
-		pInput = player(xLimit, yLimit);
-		hasHit = board2.fire(pInput);
-		if (hasHit > 0) { // Hit
-			// check game over
-			if (hasHit == 2)
-			if(board2.hasLost()) {
-				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
-				gameOver = true;
-			}
-		} else {
-			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
-					<< ") heeft niets geraakt!" << endl;
-		}
+//		pInput = player(xLimit, yLimit);
+//		hasHit = board2.fire(pInput);
+//		if (hasHit > 0) { // Hit
+//			// check game over
+//			if (hasHit == 2)
+//			if(board2.hasLost()) {
+//				cout << "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!" << endl;
+//				gameOver = true;
+//			}
+//		} else {
+//			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
+//					<< ") heeft niets geraakt!" << endl;
+//		}
 
 		// Draw
 		draw();
@@ -207,7 +206,7 @@ Coordinates Game::player(int xLimit, int yLimit) {
 }
 
 void Game::draw() {
-	battlefield.draw(myShips, board2.getMissiles(), board2.getHits(),
+	battlefield.draw(myShips, board2.getHits(), board2.getMissiles(),
 					board1.getHits(), board1.getMissiles());
 }
 

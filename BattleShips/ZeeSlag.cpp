@@ -21,14 +21,13 @@ int main(int argc, char *argv[]) {
 	cout << "Klaar voor een spelletje zeeslag?\n(C) Matthijs Lasure" << endl;
 	cout << argc << endl;
 
-	 /* initialize random seed: */
+	 // initialize random seed
 	  srand (time(NULL));
 
 	// Arguments
 	int difficulty = 3;
 	if (argc == 2) {
 		stringstream diff_s(argv[1]); // Moeilijkheidsgraad instellen
-		cout << argv[1] << endl;
 		if (! (diff_s >> difficulty) ) difficulty = 3;
 	}
 
@@ -91,7 +90,7 @@ int main(int argc, char *argv[]) {
 	zeeslag.drawInit();
 
 	// Player
-	if(true) {
+	if(false) {
 		for (int i = 0; i < shipNames.size(); i++) {
 			for (int j = 0; j < shipCounts[i]; j++) {
 				inputOK = false;

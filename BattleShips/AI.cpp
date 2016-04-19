@@ -8,6 +8,7 @@
 #include "GameBoard.h"
 #include <stdlib.h>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -49,21 +50,21 @@ void AI::init(int diffi, int xL, int yL) {
 }
 
 Coordinates AI::getMove(GameBoard board) {
-	cout << "GetMove" << endl;
 	Coordinates answer{0,0};
 	vector<Coordinates> avail;
 	int abc, x, y;
 	switch (mode) {
 	case 0: // Checkerboard pattern
-		for (int i = 0; i < checkers.size(); i++) {
-			if (board.checkMissile(checkers[i])) {
-				checkers.erase(checkers.begin() + i);
-			}
-		}
+		checkers.erase(
+				remove_if(
+						checkers.begin(),
+						checkers.end(),
+						[&board](const Coordinates & o) { return board.checkMissile(o); }),
+				checkers.end()
+		);
+
 		if (checkers.size() > 0) {
-			cout << "getMove case 0 checkers" << checkers.size() << endl;
-			for ( Coordinates c : checkers)
-				cout << c.getX() << " " << c.getY() << endl;
+
 			do {
 				abc = rand() % checkers.size();
 				answer = checkers[abc];
@@ -71,7 +72,6 @@ Coordinates AI::getMove(GameBoard board) {
 		} else {
 			defmode = 6;
 			mode = 6;
-			cout << "getMove case 0 rand" << endl;
 			do {
 				int x = rand() % xLimit + 1;
 				int y = rand() % yLimit + 1;
@@ -91,16 +91,30 @@ Coordinates AI::getMove(GameBoard board) {
 			if(! board.checkMissile(answer))
 				avail.push_back(answer);
 		}
-		answer = avail[rand() % avail.size()];
 
-		x = answer.getX() - firstHit.getX();
-		y = answer.getY() - firstHit.getY();
+		if (avail.size() > 0 ) {
 
-		if (x == -1) zoekrichting = 3; // West
-		else if (x == 1) zoekrichting = 1; // East
-		else if (y == -1) zoekrichting = 0; // North
-		else zoekrichting = 2; // South
+			answer = avail[rand() % avail.size()];
 
+			x = answer.getX() - firstHit.getX();
+			y = answer.getY() - firstHit.getY();
+
+			if (x == -1) zoekrichting = 3; // West
+			else if (x == 1) zoekrichting = 1; // East
+			else if (y == -1) zoekrichting = 0; // North
+			else zoekrichting = 2; // South
+
+		} else {
+
+			mode = defmode;
+			do {
+				int x = rand() % xLimit + 1;
+				int y = rand() % yLimit + 1;
+
+				answer = Coordinates{x, y};
+
+			} while (board.checkMissile(answer));
+		}
 		break;
 	case 2: // Deprecated
 	case 3:
@@ -146,12 +160,11 @@ Coordinates AI::getMove(GameBoard board) {
 			break;
 		}
 		if ( !board.checkMissile(answer)) // Check legit
-			break;
-		else {
+			break; // If legit, quit switch, go to return
+		else { // Indien niet legit, blijf in de switch, en ga naar 6
 			mode = defmode;
 		}
 	case 6:
-		cout << "getMove case 6 rand" << endl;
 		do {
 			int x = rand() % xLimit + 1;
 			int y = rand() % yLimit + 1;
@@ -166,7 +179,6 @@ Coordinates AI::getMove(GameBoard board) {
 }
 
 void AI::hasHit(Coordinates hit, int severity) {
-	cout << "hasHit" << endl;
 	if (severity > 0) lastHit = hit;
 
 	if (difficulty == 2 || difficulty == 0) {

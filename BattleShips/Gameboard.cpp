@@ -46,11 +46,13 @@ int GameBoard::fire(Coordinates missile) {
 	for (Ship &ship : myShips) {
 		if(ship.isHit(missile)) {
 			cout << "De raket op (" << missile.getX() << " " << missile.getY()
-					<< ") heeft het schip " << ship.getName()
-					<< " (lengte " << ship.getLength() << ") geraakt!" << endl;
+					<< ") heeft een schip geraakt!" << endl;
 			myHits.push_back(missile);
 
-			if (ship.isDead()) return (2);
+			if (ship.isDead()) {
+				cout << "Het schip " << ship.getName() << " is gezonken!" << endl;
+				return (2);
+			}
 			else return (1);
 		}
 	}
