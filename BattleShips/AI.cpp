@@ -84,6 +84,7 @@ Coordinates AI::getMove(GameBoard board) {
 		}
 		break;
 	case 1: // Has hit once, fire in vicinity
+
 		for (int i = -1; i <= 1; i += 2) {
 			answer = Coordinates { i + firstHit.getX(), firstHit.getY() };
 			if (!board.checkMissile(answer))
@@ -127,6 +128,7 @@ Coordinates AI::getMove(GameBoard board) {
 		break;
 	case 4:
 		answer = lastHit;
+		cout << zoekrichting << endl;
 		switch (zoekrichting) {
 		case 0: // North
 			answer.setY(lastHit.getY() - 1);
@@ -144,10 +146,12 @@ Coordinates AI::getMove(GameBoard board) {
 		if (!board.checkMissile(answer)) // Check legit, anders andere kant
 			break;
 		else {
+			cout << "Can't do, reversing" << endl;
 			mode = 5;
-			zoekrichting += 2;
-			if (zoekrichting > 3)
-				zoekrichting -= 4;
+			if (zoekrichting > 1)
+				zoekrichting -= 2;
+			else
+				zoekrichting += 2;
 			lastHit = firstHit;
 		}
 	case 5:
@@ -212,9 +216,14 @@ void AI::hasHit(Coordinates hit, int severity) {
 			break;
 			// Schieten op de rest vh schip, deel 1
 		case 4:
-			if (severity == 0)
+			if (severity == 0) {
 				mode = 5;
-			else if (severity == 2)
+				lastHit = firstHit;
+				if (zoekrichting > 1)
+					zoekrichting -= 2;
+				else
+					zoekrichting += 2;
+			} else if (severity == 2)
 				mode = defmode;
 			break;
 			// Schieten op de rest vh schip, deel 2
