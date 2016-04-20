@@ -14,16 +14,20 @@
 
 using namespace std;
 
-Game::Game(int xi, int yi, int diffi) {
-	gameOver = false;
-	xLimit = xi;
-	yLimit = yi;
-	difficulty = diffi;
+/*
+ * Game: constructor
+ * @param xi grootte van het veld, x richting
+ * @param yi grootte van het veld, y richting
+ * @param diffi moeilijkheidsgraad AI
+ */
+Game::Game(int xi, int yi, int diffi) :
+		xLimit(xi), yLimit(yi), difficulty(diffi) {
 
-	board1 = GameBoard { xLimit, yLimit };
-	board2 = GameBoard { xLimit, yLimit };
+	// Instellen gameboards
+	board1 = GameBoard { xLimit, yLimit }; // speler ships + vijand bommen
+	board2 = GameBoard { xLimit, yLimit }; // AI ships + speler bommen
 
-	// Instellen HTML
+	// Instellen output grenzen
 	battlefield.setDimensions(xLimit, yLimit); // Set limits
 
 	// Instellen AI
@@ -35,75 +39,103 @@ Game::Game(int xi, int yi, int diffi) {
  * Zal returnen wanneer er een Game Over is
  */
 void Game::gameLoop() {
+	// Haal alle coordinaten op die ingenomen zijn door de schepen van de player.
 	myShips = board1.getShipCoords();
 
 	// Initiële draw
 	draw();
 
-	// DEBUG
-//	for (Coordinates s : myShips) {
-//		cout << s.getX() << " " << s.getY() << endl;
-//	}
-
+	// Bijhouden wleke ronde het is
 	int cyclus = 0;
+
+	/*
+	 * Var met info over laatste hit
+	 * 0: gemist
+	 * 1: geraakt
+	 * 2: gezonken
+	 */
 	int hasHit = 0;
 
-	while (!gameOver) {
+	while (!gameOver) { // Start gLoop
+		// Nieuwe spelronde
 		cyclus++;
 		cout << "Spelronde " << cyclus << endl;
+
+		// Zet input op 0
 		Coordinates pInput { 0, 0 };
 
+		// ================================
 		// Speler
-		// ======
+		// ================================
+
 		// Vraag input
 		pInput = player(xLimit, yLimit);
+
+		// Vuur op gegeven plaats!
 		hasHit = board2.fire(pInput);
-		if (hasHit > 0) { // Hit
-			// check game over
+
+		// Indien er iets geraakt is, onderneem actie
+		if (hasHit > 0) {
+			// Indien het schip gezonken is, check of het spel over is
 			if (hasHit == 2)
-				if (board2.hasLost()) {
+				if (board2.hasLost()) { // Laat de speler weten, en zet de vars juist
 					cout
 							<< "Alle schepen van speler 2 zijn gezonken! Je hebt gewonnen!"
 							<< endl;
 					gameOver = true;
 				}
-		} else {
+		} else { // Er is niets geraakt
 			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
 					<< ") heeft niets geraakt!" << endl;
-		}
+		} // Einde IF HASHIT
 
-		// Draw
+		// Teken het bord. Dit is vooral handig indien de AI veel tijd nodig heeft.
 		draw();
 
 		// Stop het spel indien player1 gewonnen heeft
 		if (gameOver)
 			break;
 
+		// ================================
 		// AI
-		// ==
+		// ================================
 		cout << "AI speelt..." << endl;
+
+		// Vraag de input
 		pInput = gladOS.getMove(board1);
+
+		// De AI heeft voldoende safety checks om illegale moves te voorkomen.
+		// Indien dit niet het geval is (e.g. bij gebruik van een andere AI), wordt de user geïnformeerd.
+		if (board1.checkMissile(pInput)) {
+			cerr
+					<< "De AI heeft onwettig geschoten! Er is een probleem met het ontwerp."
+					<< endl << pInput.getX() << " " << pInput.getY() << endl;
+		}
+
+		// Vuur op gegeven plaats!
 		hasHit = board1.fire(pInput);
 
-		// Laat het weten aan de AI
+		// Laat het resultaat weten aan de AI
 		gladOS.hasHit(pInput, hasHit);
 
+		// Indien er iets geraakt is, onderneem actie
 		if (hasHit > 0) {
-			// check game over
-			if (board1.hasLost()) {
+			// Indien het schip gezonken is, check of het spel over is
+			if (board1.hasLost()) { // Laat de speler weten, en zet de vars juist
 				cout
 						<< "Alle schepen van speler 1 zijn gezonken! Je hebt verloren!"
 						<< endl;
 				gameOver = true;
 			}
-		} else {
+		} else { // Er is niets geraakt
 			cout << "De raket op (" << pInput.getX() << " " << pInput.getY()
 					<< ") heeft niets geraakt!" << endl;
-		}
+		} // Einde IF HASHIT
 
-		// Draw again
+		// Teken het bord opnieuw.
 		draw();
-	}
+
+	} // End gLoop
 }
 
 /*
@@ -193,14 +225,16 @@ Coordinates Game::player(int xLimit, int yLimit) {
 	bool inputOK = false;
 	int x, y;
 
+	// Do zolang de input niet OK is
 	do {
 		cout << "Klaar om te schieten, geef de coordinaten in: ";
 
+		// Vraag input
 		cin >> x >> y;
-		cin.clear();
+		cin.clear(); // Kuis de stream, om ongelukjes te vermijden
 		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-		// Check de input
+		// Check of de input binnen de grenzen is
 		if (x > 0 && x <= xLimit && y > 0 && y <= yLimit) {
 			input.setX(x);
 			input.setY(y);
@@ -209,25 +243,24 @@ Coordinates Game::player(int xLimit, int yLimit) {
 			if (board2.checkMissile(input)) {
 				cout << "Daar is al geschoten. Probeer opnieuw!" << endl;
 				inputOK = false;
-			} else {
+			} else { // Binnen grenzen
 				inputOK = true;
 			}
-		} else {
+		} else { // Niet binnen grenzen, print fout
 			cout << "Foute input! Voer 2 gehele getallen in tussen 1 en "
 					<< xLimit << " voor de X en tussen 1 en " << yLimit
 					<< " voor de Y!" << endl;
 			inputOK = false;
 		}
-	} while (!inputOK);
+	} while (!inputOK); // Einde DO
 
 	return (input);
 }
 
-void Game::draw() {
-	battlefield.draw(myShips, board2.getHits(), board2.getMissiles(),
-			board1.getHits(), board1.getMissiles());
-}
-
+/*
+ * drawInit: teken het bord voor het spel begonnen is.
+ * Deze functie is publiek, zodat de MAIN functie deze kan aanroepen tijdens de invoer van de schepen.
+ */
 void Game::drawInit() {
 	myShips = board1.getShipCoords();
 	draw();

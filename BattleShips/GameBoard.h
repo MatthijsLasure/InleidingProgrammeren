@@ -20,10 +20,17 @@ public:
 	 */
 	GameBoard(int, int);
 
+	/*
+	 * Getter: Alle raketten afgevuurd op dit bord
+	 */
 	vector<Coordinates> getMissiles() {
 		return (myMissiles);
 	}
 	;
+
+	/*
+	 * Getter: Alle raketten die iets geraakt hebben op dit bord
+	 */
 	vector<Coordinates> getHits() {
 		return (myHits);
 	}
@@ -42,15 +49,37 @@ public:
 	 */
 	int fire(Coordinates);
 
+	/*
+	 * hasLost Check of dat de speler verloren heeft
+	 * @return True indien alle schepen gezonken zijn
+	 */
 	bool hasLost();
 
-	void addShip(Coordinates, int, char, string);
+	/*
+	 * addShip: Setter: voeg een nieuw schip toe aan de vloot
+	 * @param pos Coordinaten van het nieuwe schip
+	 * @param length lengte van het nieuwe schip
+	 * @param richting orientatie van het nieuwe schip
+	 * @param naam De naam van het nieuwe schip
+	 */
+	void addShip(Coordinates pos, int length, char richting, string name) {
+		myShips.push_back(Ship { pos, length, richting, name });
+	}
 
+	/*
+	 * checkMissile: check of er al een raket is afgevuurd op de gegeven locatie / het een legale plaats is
+	 * @param newMissile de coordinates van de nieuwe raket
+	 * @return True indien er al een raket is afgevuurd op die plaats, of het niet binnen de grenzen ligt
+	 */
 	bool checkMissile(Coordinates);
 
 private:
+	// Grootte van het bord
 	int xLimit, yLimit;
+
+	// Verzameling posities
 	vector<Ship> myShips;
+
 	vector<Coordinates> myMissiles; // Gemiste raketten van de andere
 	vector<Coordinates> myHits; // Hits toegebracht door de andere
 };

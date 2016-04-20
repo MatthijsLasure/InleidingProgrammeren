@@ -24,9 +24,16 @@ public:
 	 */
 	Ship(Coordinates pos, int length, char richting, string name);
 
+	/*
+	 * Getter: lengte
+	 */
 	int getLength() {
 		return (length);
 	}
+
+	/*
+	 * Getter: naam
+	 */
 	string getName() {
 		return (schipNaam);
 	}
@@ -55,12 +62,12 @@ public:
 	}
 
 private:
-	bool dead; // Is het ship volledig gebombardeerd?
-	int length = 0;
-	int hits = 0;
+	bool dead = false; // Is het ship volledig gebombardeerd?
+	int length = 0; // lengte
+	int hits = 0; // Aantal hits
 
 	vector<Coordinates> locations; // Vector met de bezette locaties door het schip
-	string schipNaam;
+	string schipNaam; // Naam van het schip
 
 };
 

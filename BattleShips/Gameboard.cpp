@@ -1,5 +1,6 @@
 /*
  * Gameboard.cpp
+ * Opslag voor schepen en bommen van een speler. Bevat ook functies ter manipulatie en controle.
  * @author Matthijs Lasure
  * @date 12-apr.-2016
  */
@@ -9,6 +10,11 @@
 
 using namespace std;
 
+/*
+ * Constructor
+ * @param x De spelgrootte, in de X richting
+ * @param y De spelgrootte, in de Y richting
+ */
 GameBoard::GameBoard(int x, int y) {
 	xLimit = x;
 	yLimit = y;
@@ -19,21 +25,21 @@ GameBoard::GameBoard(int x, int y) {
  * @return Vector met de coordinaten
  */
 vector<Coordinates> GameBoard::getShipCoords() {
-	vector<Coordinates> total;
-	vector<Coordinates> temp;
+	vector<Coordinates> total; // Vector met alle plaatsen
+	vector<Coordinates> temp; // Vector met plaatsen van 1 schip
 
+	// Loop over alle schepen
 	for (Ship ship : myShips) {
-		temp = ship.getCoords();
+		temp = ship.getCoords(); // Vraag alle locaties van een schipo
 		for (Coordinates c : temp) {
-			total.push_back(c);
+			total.push_back(c); // Zet alle locaties bij op de vector
 		}
-		//total.insert(total.end(), ship.getCoords().begin(), ship.getCoords().end());
 	}
 	return (total);
 }
 
 /*
- * fire vuur een raket af op een locatie op dit bord. In geval van een hit, print info
+ * fire: Vuur een raket af op een locatie op dit bord. In geval van een hit, print info
  * @param missile de coordinaten van de raket
  * @return 0 voor gemist, 1 voor hit, 2 voor gezonken
  */
@@ -41,22 +47,24 @@ int GameBoard::fire(Coordinates missile) {
 	// Zet op de lijst van raketten
 	myMissiles.push_back(missile);
 	// Loop over alle schepen, check of ze geraakt zijn
-	// Note: geen loop over array, maar met indiches: we moeten de params in de vector aanpassen,
-	// niet aan een gekopieerd object
-	for (Ship &ship : myShips) {
-		if (ship.isHit(missile)) {
+	// Note: referencing: de schepen moeten aangepast worden indien geraakt
+	for (Ship &ship : myShips) { // Loop over alle schepen
+		if (ship.isHit(missile)) { // Vuur raket af op schip, check resultaat
+			// Print info
 			cout << "De raket op (" << missile.getX() << " " << missile.getY()
 					<< ") heeft een schip geraakt!" << endl;
+			// Zet raket op lijst met hits
 			myHits.push_back(missile);
 
+			// Check of het schip gezonken is, print info
 			if (ship.isDead()) {
 				cout << "Het schip " << ship.getName() << " is gezonken!"
 						<< endl;
 				return (2);
 			} else
-				return (1);
-		}
-	}
+				return (1); // Niet gezonken
+		} // Einde isHit
+	} // Einde loop
 
 	// For lus heeft niets gereturned, dus niets geraakt, dus false
 	return (0);
@@ -67,9 +75,9 @@ int GameBoard::fire(Coordinates missile) {
  * @return True indien alle schepen gezonken zijn
  */
 bool GameBoard::hasLost() {
-	for (Ship ship : myShips) {
+	for (Ship ship : myShips) { // Loop over alle schepen
 		if (!ship.isDead()) { // Een schip drijft nog
-			return (false);
+			return (false); // Dus nog niet verloren!
 		}
 	}
 	// Alle schepen zijn gezonken
@@ -77,21 +85,9 @@ bool GameBoard::hasLost() {
 }
 
 /*
- * addShip: voeg een nieuw schip toe aan de vloot
- * @param pos Coordinaten van het nieuwe schip
- * @param length lengte van het nieuwe schip
- * @param richting orientatie van het nieuwe schip
- * @param naam De naam van het nieuwe schip
- */
-void GameBoard::addShip(Coordinates pos, int length, char richting,
-		string name) {
-	myShips.push_back(Ship { pos, length, richting, name });
-}
-
-/*
- * checkMissile: check of er al een raket is afgevuurd op de gegeven locatie
+ * checkMissile: check of er al een raket is afgevuurd op de gegeven locatie / het een legale plaats is
  * @param newMissile de coordinates van de nieuwe raket
- * @return True indien er al een raket is afgevuurd op die plaats
+ * @return True indien er al een raket is afgevuurd op die plaats, of het niet binnen de grenzen ligt
  */
 bool GameBoard::checkMissile(Coordinates newMissile) {
 	// Check grenzen
@@ -106,5 +102,6 @@ bool GameBoard::checkMissile(Coordinates newMissile) {
 				&& newMissile.getY() == missile.getY())
 			return (true);
 	}
+
 	return (false);
 }

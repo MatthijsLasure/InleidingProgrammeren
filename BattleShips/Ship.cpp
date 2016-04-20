@@ -5,7 +5,6 @@
  */
 
 #include <string>
-#include <iostream>
 #include "Coordinates.h"
 #include "Ship.h"
 
@@ -18,10 +17,8 @@ using namespace std;
  * @param richting Oriëntatie van het schip: horizontaal / verticaal
  * @param name Naam van het schip
  */
-Ship::Ship(Coordinates pos, int lengthi, char richting, string name) {
-	// Reserveer plaats
-	length = lengthi;
-	hits = 0;
+Ship::Ship(Coordinates pos, int lengthi, char richting, string name) :
+		length(lengthi) {
 
 	if (richting == 'h') { // Horizontaal
 		// Voor de hele lengte, maak een nieuwe Coordinates in de vector aan
@@ -52,13 +49,10 @@ bool Ship::isHit(Coordinates missile) {
 	// Loop over alle locaties vh schip
 	for (Coordinates loc : locations) {
 		if (missile.getX() == loc.getX() && missile.getY() == loc.getY()) { // Hit!
-
 			hits++;
-			if (hits == length) {
+			if (hits == length) // Als er evenveel hits zijn als het schip lang is, dan zinkt het
 				dead = true;
-			}
 			return (true);
-
 		}
 	}
 	return (false); // Miss!
