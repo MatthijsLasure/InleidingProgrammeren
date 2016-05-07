@@ -100,7 +100,7 @@ int main() {
 		// Print veldgrootte af ter controle
 		cout << "Veldgrootte: " << xLimit << " x " << yLimit << endl;
 		// Print alle schepen af
-		for (int i = 0; i < shipNames.size(); i++) {
+		for (unsigned int i = 0; i < shipNames.size(); i++) {
 			cout << shipNames[i] << " " << shipLengths[i] << " "
 					<< shipCounts[i] << endl;
 		}
@@ -121,7 +121,7 @@ int main() {
 
 		// Player input
 		if (true) {
-			for (int i = 0; i < shipNames.size(); i++) { // Loop over alle schepen
+			for (unsigned int i = 0; i < shipNames.size(); i++) { // Loop over alle schepen
 				for (int j = 0; j < shipCounts[i]; j++) { // Loop over het aantal per schip
 					inputOK = false;
 					// Loop tot er een juiste input is
@@ -197,7 +197,7 @@ int main() {
 			} // End for schepen
 
 		} else { // Rand
-			for (int i = 0; i < shipNames.size(); i++) {
+			for (unsigned int i = 0; i < shipNames.size(); i++) {
 				for (int j = 0; j < shipCounts[i]; j++) {
 					inputOK = false;
 					// Loop tot er een juiste input is
@@ -242,7 +242,7 @@ int main() {
 		}
 
 		// AI
-		for (int i = 0; i < shipNames.size(); i++) { // Voor alle schepen
+		for (unsigned int i = 0; i < shipNames.size(); i++) { // Voor alle schepen
 			for (int j = 0; j < shipCounts[i]; j++) { // Voor alle per schip
 				inputOK = false;
 				// Loop tot er een juiste input is
@@ -291,6 +291,8 @@ int main() {
 		string repeat;
 		cout << "Dit spel is afgelopen. Wil je nog eens spelen (y/j/ja//*): ";
 		cin >> repeat;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		if (repeat == "y" || repeat == "j" || repeat == "ja")
 			doRepeat = true;
 		else
