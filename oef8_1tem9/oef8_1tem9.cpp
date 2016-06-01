@@ -49,6 +49,17 @@ void swapPointers(double*& p1, double*& p2) {
 	p2 = temp;
 }
 
+// Deel 10
+//========
+void sort(double a[], int length) {
+	for(int i=length - 1; i > 0; i--) {
+		for (int j=0; j < i; j++) {
+			if(a[j] > a[j+1])
+				swapValuesByReference(a[j], a[j+1]);
+		}
+	}
+}
+
 
 int main() {
 	// Deel 01
@@ -135,6 +146,20 @@ int main() {
 	*d8b1 = *d8b2;
 	*d8b2 = temp2;
 	cout << "Deel 09: After pointer swap\t" << *d8b1 << "\t" << *d8b2 << endl;
+
+	// Deel 10
+	//========
+	int limit = 10;
+	double* a = new double[limit];
+	for(int i=0; i<limit;i++) a[i] = rand() % 1000;
+
+	for(int i=0; i<limit;i++) cout << a[i] << "\t";
+	cout << endl;
+	sort(a, limit);
+	for(int i=0; i<limit;i++) cout << a[i] << "\t";
+	cout << endl;
+
+	delete[] a;
 }
 
 
