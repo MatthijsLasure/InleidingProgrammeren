@@ -17,6 +17,7 @@ int main() {
 
 	cout << "Geef een getal: ";
 	cin >> x;
+	cout << "De absolute waarde is: " << abs((long double) x) << endl;
 
 	cout << power(2,-5) << endl;
 	cout << fac(6) << endl;

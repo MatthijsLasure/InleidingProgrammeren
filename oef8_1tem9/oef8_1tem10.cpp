@@ -67,6 +67,8 @@ int main() {
 	double var1 = 15.0;
 	double var2 = 20.0;
 
+	//double* p_tovar1 = &var1;
+
 	// Deel 02
 	//========
 	cout << "Deel 02" << endl;
